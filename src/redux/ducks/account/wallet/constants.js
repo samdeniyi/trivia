@@ -1,0 +1,21 @@
+export const SAVE_USER_DEBIT_CARD     = 'account/wallet/save_user_debit_card';
+export const DELETE_USER_DEBIT_CARD   = 'account/wallet/delete_user_debit_card';
+export const SENDING_WALLET_DATA      = 'account/wallet/sending_user_bank_data';
+export const USER_WALLET_SUCCESS      = 'account/wallet/user_wallet_success';
+export const USER_WALLET_FAILED       = 'account/wallet/user_wallet_failed';
+export const SAVE_USER_BANK_ACCOUNT   = 'account/wallet/save_user_bank_account';
+export const DELETE_USER_BANK_ACCOUNT = 'account/wallet/delete_user_bank_account';
+export const SAVE_WALLET_FUND_AMOUNT  = 'account/wallet/save_wallet_fund_amount';
+export const SAVE_WALLET_USAGE_MODE   = 'account/wallet/save_wallet_usage_mode';
+export const UPDATE_WALLET_BALANCE    = 'account/wallet/update_wallet_balance';
+export const UPDATE_WALLET_STATUS     = 'account/wallet/update_wallet_status';
+export const HIDE_WALLET_BALANCE      = 'account/wallet/hide_wallet_balance';
+export const SAVE_WALLET_TRANSFER_AMOUNT = 'account/wallet/save_wallet_transfer_amount';
+export const SAVE_WALLET_TRANSFER_DATA = 'account/wallet/save_wallet_transfer_data';
+export const SAVE_WALLET_MONEY_RECIPIENTS     = 'account/wallet/save_wallet_money_recipients';
+export const GET_AVAILABLE_BANKS = 'account/wallet/get_available_banks';
+export const SAVE_BENEFICIARY = 'account/wallet/save_beneficiary';
+export const PREPARE_TO_TRANSFER_MONEY = 'account/wallet/prepare_to_transfer_money';
+export const WALLET_TRANSACTION_ID  = 'account/wallet/transaction_id';
+export const WALLET_SUCCESS_PAGE_TRANSACTION_RECORD  = 'account/wallet/success_page/transaction_record';
+

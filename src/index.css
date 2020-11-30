@@ -1,0 +1,32 @@
+body, html {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-width: 100%;
+  background-color: #000;
+  background-image: url('https://spaces-images.s3.eu-central-1.amazonaws.com/spaces_bg.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media screen and (max-width: 768px) {
+  body, html {
+    background-size: 800px 500px;
+    background-position: top center;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  body, html {
+    background-size: 500px 320px;
+    background-position: top center;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
