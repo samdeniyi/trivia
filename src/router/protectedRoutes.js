@@ -14,6 +14,9 @@ import { transactionRoutesWithHeader} from './actions/transactionRoutes';
 import { sendMoneyRoutes }         from './actions/sendMoneyRoutes';
 import { upgradeMerchantRoutes }   from './actions/upgradeMerchantRoute';
 
+// Trivia game routes
+import { gameRoutes } from '../_gamesApp/routes'
+
 import {
     Home,
     Notifications,
@@ -238,5 +241,6 @@ export const protectedRoutes = [
     ...merchBuyRoutesWithHeader,
     ...sendMoneyRoutes,
     ...upgradeMerchantRoutes,
-    ...transactionRoutesWithHeader
+    ...transactionRoutesWithHeader,
+    ...gameRoutes
 ];

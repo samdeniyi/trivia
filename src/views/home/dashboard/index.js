@@ -37,7 +37,7 @@ import {
 import { ReactComponent as FinancialIcon } from "./assets/financial.svg";
 import { ReactComponent as ContactsIcon } from "./assets/contacts.svg";
 import { ReactComponent as ShopIcon } from "./assets/shop.svg";
-//import { ReactComponent as LearningIcon } from "./assets/learning.svg";
+import { ReactComponent as LearningIcon } from "./assets/learning.svg";
 import FallbackUserAvatar from "../../../assets/user-avater.svg";
 import PendingUserSVG from "../../../assets/pending-user.svg";
 import UnapprovedUserSVG from "../../../assets/unapproved-user.svg";
@@ -362,16 +362,16 @@ const Home = ({
                             />
                         </DashboardCategory>
                     )}
-                    {/* <DashboardCategory>
+                    <DashboardCategory>
                         <CategoryRow>
                             <LearningIcon />
-                            <CategoryTitle>Learning & Trivia</CategoryTitle>
+                            <CategoryTitle>Learning &amp; Trivia</CategoryTitle>
                         </CategoryRow>
                         <ActionsList
                             type={"LEARNING"}
                             setStatusPopup={setStatusPopup}
                         />
-                    </DashboardCategory> */}
+                    </DashboardCategory>
                 </DashboardBlock>
                 {/* {(role === "ROLE_AGENT" && tier && tier === "TIER_1") && (    
                     <UpgradeBox>         
