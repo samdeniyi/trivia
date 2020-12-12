@@ -649,7 +649,7 @@ const ActionsList = ({
                             if (role === "ROLE_USER" ||
                                 (role === "ROLE_AGENT" && agentState === "APPROVED")
                             ) {
-                                History.push("/games");
+                                
                             } else {
                                 setStatusPopup(true);
                             }
@@ -664,7 +664,7 @@ const ActionsList = ({
                             if (role === "ROLE_USER" ||
                                 (role === "ROLE_AGENT" && agentState === "APPROVED")
                             ) {
-
+                                History.push("/games");
                             } else {
                                 setStatusPopup(true);
                             }
