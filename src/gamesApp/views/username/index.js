@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 // import { func } from 'prop-types';
 import { SpacesHeader } from '../../../components/spaces-header';
-import { InputWithLabel } from '../../../components';
 import {Button, UsernameInput} from '../../components';
 import { Container } from '../../../containers/ScreenContainer';
 import { Formik, Form } from "formik";

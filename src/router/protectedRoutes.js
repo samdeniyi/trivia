@@ -15,7 +15,7 @@ import { sendMoneyRoutes }         from './actions/sendMoneyRoutes';
 import { upgradeMerchantRoutes }   from './actions/upgradeMerchantRoute';
 
 // Trivia game routes
-import { gameRoutes } from '../_gamesApp/routes'
+import { gameRoutes } from '../gamesApp/routes'
 
 import {
     Home,

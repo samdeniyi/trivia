@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="646" fill="none" viewBox="0 0 360 646">
+    <mask id="4k2ijpaz3a" width="360" height="646" x="0" y="0" maskUnits="userSpaceOnUse">
+        <path fill="#C4C4C4" d="M0 0h360v646H0V0z"/>
+    </mask>
+    <g mask="url(#4k2ijpaz3a)">
+        <rect width="288.443" height="862.881" fill="#22A8FF" rx="4" transform="matrix(.91998 .39196 -.49727 .8676 236.082 -139.732)"/>
+        <rect width="288.443" height="862.881" fill="url(#paint0_linear)" rx="4" transform="matrix(.91998 .39196 -.49727 .8676 236.082 -139.732)"/>
+        <path fill="#22A8FF" d="M0 0H194.908V438.869H0z" transform="matrix(.91998 .39196 -.49727 .8676 27.782 -145.009)"/>
+        <path fill="#22A8FF" fill-opacity=".85" d="M0 0H212.915V617.841H0z" transform="matrix(.91998 .39196 -.49727 .8676 363.122 214.509)"/>
+    </g>
+    <defs>
+        <linearGradient id="paint0_linear" x1="166.389" x2="-136.941" y1="520.991" y2="536.737" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#22A8FF"/>
+            <stop offset="1" stop-color="#C6E8FF" stop-opacity="0"/>
+        </linearGradient>
+    </defs>
+</svg>
