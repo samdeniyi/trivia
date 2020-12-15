@@ -131,7 +131,7 @@
 		"build:staging": "env-cmd -f ./.env/.env.staging node scripts/build.js",
 		"build:production": "env-cmd -f ./.env/.env.production node scripts/build.js",
 		"build:demo": "env-cmd -f ./.env/.env.demo node scripts/build.js",
-		"build": "react-scripts build",
+		"build": "node scripts/build.js",
 		"postbuild": "yarn run generate-build-meta",
 		"test": "node scripts/test.js"
 	},
