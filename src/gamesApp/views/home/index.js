@@ -38,11 +38,16 @@ import History from '../../../utils/History';
 const Home = () => {
   const [openTerms, setOpenTerms] = useState(false);
 
+  const currentTimeGreaterThan12pm = utils.isCurrentTimeGreaterThan12pm();
+  const currentTimeGreaterThan4pm = utils.isCurrentTimeGreaterThan4pm();
   const todayInMilliSeconds = Date.now();
   const todayFullDate = new Date();
+  const tomorrowFullDate = todayFullDate.setDate(todayFullDate.getDate() + 1);
+  const tomorrowFormattedDate = utils.formatDate(tomorrowFullDate);
   const todayFormattedDate = utils.formatDate(todayFullDate);
   const milliSecondsTill12pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 12:00:00`));
   const milliSecondsTill4pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 16:00:00`));
+  const milliSecondsTill12pmTomorrow = todayInMilliSeconds - (new Date(`${tomorrowFormattedDate} 12:00:00`));
 
   return (
     <Fragment>
@@ -86,12 +91,12 @@ const Home = () => {
 
         <GameExpiryContainer>
           <GameExpiryText
-            color={utils.isCurrentTimeGreaterThan12pm() ? "#fc2d00" : "#56636d"}
+            color={currentTimeGreaterThan12pm ? "#fc2d00" : "#56636d"}
           >
-            {utils.isCurrentTimeGreaterThan12pm() ? "Game expires in" : "Game Starts In"}
+            {currentTimeGreaterThan12pm ? "Game expires in" : "Game Starts In"}
           </GameExpiryText>
           <Countdown 
-            date={todayInMilliSeconds - (utils.isCurrentTimeGreaterThan12pm() ? milliSecondsTill4pm : milliSecondsTill12pm)}
+            date={todayInMilliSeconds - (currentTimeGreaterThan12pm ? milliSecondsTill4pm : currentTimeGreaterThan4pm ? milliSecondsTill12pmTomorrow : milliSecondsTill12pm)}
             onComplete={() => window.location.reload()}
             renderer={props => 
               <CountdownText>
@@ -100,7 +105,7 @@ const Home = () => {
           />
           <Button 
             onClick={() => History.push('/games/play')}
-            disabled={!utils.isCurrentTimeGreaterThan12pm()}
+            disabled={!currentTimeGreaterThan12pm}
           >
             Play Game
           </Button>

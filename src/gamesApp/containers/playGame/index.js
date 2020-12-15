@@ -3,6 +3,7 @@ import PlayGame from '../../views/playGame';
 import Loader from '../../views/loader';
 import { gameService } from '../../services';
 import History from '../../../utils/History';
+import { utils } from '../../utils';
 
 const PlayGameContainer = () => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const PlayGameContainer = () => {
     gameService.getQuestionAnswer(challengeId, question).then(res => {
       setLoading(false);
       if(res.status === 200){
-        const answer = res?.data
+        const answer = res?.data.toString();
         setCorrectAnswer(answer);
         if(answer === selectedAnswer){
           setScore(score + 1);
@@ -37,7 +38,7 @@ const PlayGameContainer = () => {
         const randomIndex = Math.floor(Math.random() * res?.data.length);
         const challenge = res?.data[randomIndex];
         setChallengeId(challenge?.id);
-        setQuestions(JSON.parse(challenge?.questions));
+        setQuestions(utils.shuffleArray(JSON.parse(challenge?.questions)));
         }
         
       };
@@ -60,6 +61,7 @@ const PlayGameContainer = () => {
           setCorrectAnswer={setCorrectAnswer}
           score={score}
           loading={loading}
+          setLoading={setLoading}
         />}
     </>
   );

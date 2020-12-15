@@ -141,7 +141,7 @@ const AnswerCard = styled.div`
   height: 126px;
   border-radius: 10px;
   background-color: ${({ bgc }) => bgc || '#fff'};
-  display: flex;
+  display: ${({ hide }) => hide ? 'none' : 'flex'};
   justify-content: center;
   align-items: center;
   margin-top: 10px;

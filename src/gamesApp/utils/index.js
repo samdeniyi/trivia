@@ -65,6 +65,17 @@ export const utils = {
       return false;
   },
 
+  isCurrentTimeGreaterThan4pm: () => {
+    let curTime = new Date();
+    let day = curTime.getDay();
+    curTime = parseInt(curTime.getHours() + "" + ("0" + curTime.getMinutes()).substr(-2) + "" + ("0" + curTime.getSeconds()).substr(-2));
+
+    if ((curTime > 160000 && day > 0))
+      return true;
+    else
+      return false;
+  },
+
   shuffleArray(arra1) {
     let ctr = arra1?.length;
     let temp;
@@ -83,17 +94,6 @@ export const utils = {
     }
     return arra1;
   },
-
-  // isCurrentTimeGreaterThan4pm: () => {
-  //   let curTime = new Date();
-  //   let day = curTime.getDay();
-  //   curTime = parseInt(curTime.getHours() + "" + ("0" + curTime.getMinutes()).substr(-2) + "" + ("0" + curTime.getSeconds()).substr(-2));
-
-  //   if ((curTime > 160000 && day > 0) && (cur))
-  //     return true;
-  //   else
-  //     return false;
-  // }
 
 
 }

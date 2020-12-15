@@ -25,10 +25,11 @@ import {
   ButtonContainer,
   ButtonWrapper,
 } from './styles';
-
+import History from '../../../utils/History';
 
 const LatestResults = () => {
   const [openTerms, setOpenTerms] = useState(false);
+  const {totalScore} = History?.location?.state;
 
   return (
     <Fragment>
@@ -65,14 +66,14 @@ const LatestResults = () => {
           </ScoreTitleBox>
           <ScoreInnerBox>
             <ScoreText>
-              125 / 125
+              {totalScore} / {totalScore}
             </ScoreText>
           </ScoreInnerBox>
         </ScoreContainer>
 
         <ButtonContainer>
           <ButtonWrapper>
-            <Button>Okay</Button>
+            <Button onClick={() => History.push('/')}>Okay</Button>
           </ButtonWrapper>
         </ButtonContainer>
         

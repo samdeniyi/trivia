@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import Countdown from 'react-countdown';
 import 'react-circular-progressbar/dist/styles.css';
@@ -30,7 +30,7 @@ import { useIsMount } from '../../hooks';
 import History from '../../../utils/History';
 
 
-const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, score, loading }) => {
+const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, score, loading, setLoading }) => {
   const isMount = useIsMount();
 
   const [openTerms, setOpenTerms] = useState(false);
@@ -38,28 +38,35 @@ const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrect
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [showWrongAnswer, setShowWrongAnswer] = useState(false);
-  const [countdownInterval, setCountdownInterval] = useState(10000);
+  const [countdownInterval, setCountdownInterval] = useState(60000);
+  const [userScore, setUserScore] = useState(0);
 
   const currentQuestion = questions[questionIndex];
   const todayInMilliSeconds = Date.now();
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = useCallback(() => {
     setSelectedAnswer('');
     setCorrectAnswer('');
     setShowCorrectAnswer(false);
     setShowWrongAnswer(false);
-    setCountdownInterval(10000);
+    setCountdownInterval(60000);
     if (questionIndex < questions?.length) {
       setQuestionIndex(questionIndex + 1);
     }
     if (questionIndex === questions?.length - 1) {
-      if (score === questions?.length) {
-        History.push('/games/result-pass', { score, totalScore: questions?.length });
-      } else {
-        History.push('/games/result-fail', { score, totalScore: questions?.length });
-      }
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)
+        console.log(userScore, score)
+        if (score === questions?.length) {
+          History.push('/games/result-pass', { totalScore: questions?.length });
+        } else {
+          History.push('/games/result-fail', { score, totalScore: questions?.length });
+        }
+      }, 2000);
+
     }
-  }
+  }, [questionIndex, score, questions, setCorrectAnswer, setLoading])
 
   const handleSelectAnswer = (answer) => {
     if (showCorrectAnswer) {
@@ -75,7 +82,7 @@ const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrect
   useEffect(() => {
     // Dont't trigger on first render
     if (!isMount) {
-      if (!loading) {
+      if (!loading && !!selectedAnswer && !!correctanswer) {
         if (correctanswer === selectedAnswer) {
           setShowCorrectAnswer(true);
           setTimeout(() => {
@@ -90,10 +97,17 @@ const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrect
           }, 3000);
         }
       }
-    }
-  }, [selectedAnswer, correctanswer, loading])
 
-  console.log('score ==>', score);
+    }
+  }, [selectedAnswer, correctanswer, loading, handleNextQuestion, isMount]);
+
+  useEffect(() => {
+    setUserScore(score);
+  }, [score])
+
+  console.log('score ==>', score, userScore, 'length', questions?.length);
+  console.log('showWrongAnswer', showWrongAnswer);
+  console.log('showCorrectAnswer', showCorrectAnswer);
 
   return (
     <Fragment>
@@ -118,7 +132,7 @@ const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrect
           </PageHeader>
           <ProgressbarContainer>
             <CircularProgressbar
-              value={(questionIndex / questions?.length) * 100}
+              value={((questionIndex + 1) / questions?.length) * 100}
               text={`${questionIndex + 1}/${questions?.length}`}
               strokeWidth={8}
               styles={{
@@ -159,21 +173,21 @@ const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrect
           <AnswerContainer>
             {utils.shuffleArray(currentQuestion?.options)?.map((item, index) =>
               <>
-                {!showCorrectAnswer &&
-                  <AnswerCard
-                    bgc={(showWrongAnswer && item === selectedAnswer) ? '#da4822' : (showWrongAnswer && item === correctanswer) ? '#4dbe58' : "#fff"}
-                    key={`${index}${item}`}
-                    onClick={() => handleSelectAnswer(item)}
-                  >
-                    <AnswerText color={(showWrongAnswer && (item === selectedAnswer || item === correctanswer)) ? "#fff" : "#000"}>
-                      {item}
-                    </AnswerText>
-                  </AnswerCard>}
+
+                {!showCorrectAnswer && <AnswerCard
+                  bgc={(showWrongAnswer && item === selectedAnswer) ? '#da4822' : (showWrongAnswer && item === correctanswer) ? '#4dbe58' : "#fff"}
+                  key={`${index}${item}`}
+                  onClick={() => handleSelectAnswer(item)}
+                >
+                  <AnswerText color={(showWrongAnswer && (item === selectedAnswer || item === correctanswer)) ? "#fff" : "#000"}>
+                    {item}
+                  </AnswerText>
+                </AnswerCard>}
 
                 {showCorrectAnswer && (item === correctanswer) &&
                   <AnswerCard
                     bgc="#4dbe58"
-                    key={`${index}${item}ans`}
+                    key={`${item}${index}`}
                     onClick={() => handleSelectAnswer(item)}
                   >
                     <AnswerText color="#fff">
@@ -190,6 +204,6 @@ const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrect
   );
 };
 
-LatestResults.propTypes = {};
+PlayGame.propTypes = {};
 
-export default connect()(LatestResults);
+export default connect()(PlayGame);
