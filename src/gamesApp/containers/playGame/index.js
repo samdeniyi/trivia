@@ -14,7 +14,7 @@ const PlayGameContainer = () => {
       if(res.status === 200){
         setQuestions(res.data[0].questions);
       };
-      console.log('get games response', res);
+      console.log('get games response =>', res);
     })
   }
 
