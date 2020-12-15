@@ -2,6 +2,10 @@
 	"name": "spaces-frontend",
 	"version": "1.0.6",
 	"private": true,
+	"engines": {
+    "npm": "6.14.8",
+    "node": "12.19.0"
+  },
 	"dependencies": {
 		"@babel/core": "7.8.4",
 		"@sentry/browser": "^5.15.5",
