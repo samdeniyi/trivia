@@ -3,9 +3,9 @@
 	"version": "1.0.6",
 	"private": true,
 	"engines": {
-    "npm": "6.14.8",
-    "node": "12.19.0"
-  },
+		"npm": "6.14.8",
+		"node": "12.19.0"
+	},
 	"dependencies": {
 		"@babel/core": "7.8.4",
 		"@sentry/browser": "^5.15.5",
@@ -41,6 +41,7 @@
 		"eslint-plugin-jsx-a11y": "6.2.3",
 		"eslint-plugin-react": "7.18.0",
 		"eslint-plugin-react-hooks": "^1.6.1",
+		"express": "^4.17.1",
 		"file-loader": "4.3.0",
 		"formik": "^2.1.4",
 		"fs-extra": "^8.1.0",
@@ -118,7 +119,8 @@
 	},
 	"scripts": {
 		"generate-build-meta": "./node_modules/react-clear-cache/bin/cli.js",
-		"start": "env-cmd -f ./.env/.env.local node scripts/start.js",
+		"start:spaces": "env-cmd -f ./.env/.env.local node scripts/start.js",
+		"start": "node server.js",
 		"start:release": "env-cmd -f ./.env/.env.release node scripts/start.js",
 		"start:dev": "env-cmd -f ./.env/.env.dev node scripts/start.js",
 		"start:staging": "env-cmd -f ./.env/.env.staging node scripts/start.js",
