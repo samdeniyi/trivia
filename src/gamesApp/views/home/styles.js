@@ -102,7 +102,7 @@ margin-top: 20px;
 `;
 
 const GameExpiryText = styled.p`
-color: #fc2d00;
+color: ${({ color }) => color || '#fc2d00'};
 font-size: 12px;
 text-align: center;
 `;
@@ -151,21 +151,21 @@ top: 10px;
 `;
 
 export {
-  FragmentWrapper,
-  PageHeader,
-  PageHeaderText,
-  RightSide,
-  SubHeader,
-  SmallText,
-  GameExpiryContainer,
-  GameExpiryText,
-  GameInformationText,
-  GameInformation,
-  HeaderAvatar,
-  LeftSide,
-  InfoLeftSide,
-  InfoRightSide,
-  InfoContainer,
-  CountdownText,
-  HeaderText,
+    FragmentWrapper,
+    PageHeader,
+    PageHeaderText,
+    RightSide,
+    SubHeader,
+    SmallText,
+    GameExpiryContainer,
+    GameExpiryText,
+    GameInformationText,
+    GameInformation,
+    HeaderAvatar,
+    LeftSide,
+    InfoLeftSide,
+    InfoRightSide,
+    InfoContainer,
+    CountdownText,
+    HeaderText,
 }

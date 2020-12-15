@@ -93,3 +93,5 @@ const fonts = {
 };
 
 export { colors, fonts };
+
+export const HEROKU_BASE_API = 'http://hidden-reaches-79120.herokuapp.com/api/';

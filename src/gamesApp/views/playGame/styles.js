@@ -145,6 +145,9 @@ const AnswerCard = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+  &:active {
+		background-color: #eee;
+	}
 `;
 
 const AnswerText = styled.p`

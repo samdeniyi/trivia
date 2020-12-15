@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 // import { func } from 'prop-types';
 import { SpacesHeader } from '../../../components/spaces-header';
-import {Button, UsernameInput} from '../../components';
+import { Button, UsernameInput } from '../../components';
 import { Container } from '../../../containers/ScreenContainer';
 import { Formik, Form } from "formik";
 import { ReactComponent as UsernameIcon } from '../../assets/icons/username-icon.svg';
@@ -30,8 +30,26 @@ const IconWrapper = styled(Container)`
     margin-bottom: 50px;
 `;
 
+const ErrorMessage = styled.p`
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #e02020;
+`;
 
-const Username = () => {
+const ButtonWrapper = styled.div`
+    width: 85%;
+    margin-top: 20px;
+    margin-left: 7.5%;
+`;
+
+
+const Username = ({ handleSubmit, userId }) => {
 
   return (
     <Fragment>
@@ -41,14 +59,21 @@ const Username = () => {
           <IconWrapper>
             <UsernameIcon />
           </IconWrapper>
-          <Formik 
+          <Formik
             initialValues={{
               username: ''
             }}
-           >
+            onSubmit={values => {
+              const payload = {
+                gamesUserName: values.username,
+                userId,
+              }
+              handleSubmit(payload)
+            }}
+          >
             {({ initialValues, values, touched, errors, setFieldValue }) => (
-                <Form>
-                  <UsernameInput
+              <Form>
+                <UsernameInput
                   label="Username"
                   placeholder="Make sure you pick a special one!"
                   height="69px"
@@ -61,16 +86,20 @@ const Username = () => {
                     errors &&
                     errors.username
                   }
-                  valid={`${touched.username &&
-                    !errors.username
+                  valid={`${!touched.username &&
+                    !errors.username && values.username.length < 10
                     }`}
                   setFieldValue={setFieldValue}
                   initialValues={initialValues}
                   noClearButton
+                  hasError={values.username.length > 12 ? true : false}
                 />
-                  <Button type="submit">Continue</Button>
-                </Form>
-              )}
+                {values.username.length > 12 && <ErrorMessage>Username must not be more than 12 characters!</ErrorMessage>}
+                <ButtonWrapper>
+                  <Button type="submit" disabled={!values.username || values.username.length > 12}>Continue</Button>
+                </ButtonWrapper>
+              </Form>
+            )}
           </Formik>
         </FragmentWrapper>
       </Fragment>
@@ -80,4 +109,8 @@ const Username = () => {
 
 Username.propTypes = {};
 
-export default connect()(Username);
+const mapStateToProps = (state) => ({
+  userId: state.user.userId,
+});
+
+export default connect(mapStateToProps)(Username);

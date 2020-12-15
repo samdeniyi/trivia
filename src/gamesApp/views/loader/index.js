@@ -6,10 +6,10 @@ import BigFlash from '../../assets/icons/loader-big-flash.svg';
 import SmallFlash from '../../assets/icons/loader-small-flash.svg';
 
 
-const Loader = ({open}) => {
+const Loader = ({loading}) => {
   return (
     <Fragment>
-      {open && (
+      {loading && (
         <Overlay>
           <LoaderIconContainer>
             <AnimationContainer>

@@ -3,6 +3,7 @@ import { colors, fonts } from '../constants';
 import { Field } from 'formik';
 
 export const InputLabelBlock = styled.div`
+    border: ${({ hasError }) => hasError ? 'solid 1px #9b0000' : 'none' };
     position: relative;
     width: ${({ width }) => width || '100%'};
     height: ${({ height }) => height || '48px'};

@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
+import Countdown from 'react-countdown';
 import { SpacesHeader } from '../../../components/spaces-header';
 import { Button } from '../../components';
 import { ReactComponent as QuestionMark } from '../../assets/icons/question-mark.svg';
@@ -30,10 +31,18 @@ import {
   CountdownText,
   HeaderText,
 } from './styles';
+import { utils } from '../../utils';
+import History from '../../../utils/History';
 
 
 const Home = () => {
   const [openTerms, setOpenTerms] = useState(false);
+
+  const todayInMilliSeconds = Date.now();
+  const todayFullDate = new Date();
+  const todayFormattedDate = utils.formatDate(todayFullDate);
+  const milliSecondsTill12pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 12:00:00`));
+  const milliSecondsTill4pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 16:00:00`));
 
   return (
     <Fragment>
@@ -51,7 +60,7 @@ const Home = () => {
       </PageHeader>
       <SubHeader>
         What you need to know
-        </SubHeader>
+      </SubHeader>
       <FragmentWrapper>
         <InfoContainer>
           <InfoLeftSide><MultipleChoiceIcon /></InfoLeftSide>
@@ -64,7 +73,7 @@ const Home = () => {
           <InfoLeftSide><TimeFrameIcon /></InfoLeftSide>
           <InfoRightSide>
             <HeaderText>60 Second Time frame</HeaderText>
-            <SmallText>You must answere all questions within a 60 second time frame.</SmallText>
+            <SmallText>You must answer all questions within a 60 second time frame.</SmallText>
           </InfoRightSide>
         </InfoContainer>
         <InfoContainer>
@@ -76,9 +85,25 @@ const Home = () => {
         </InfoContainer>
 
         <GameExpiryContainer>
-          <GameExpiryText>Game expires in</GameExpiryText>
-          <CountdownText>00:03:23</CountdownText>
-          <Button>Play Game</Button>
+          <GameExpiryText
+            color={utils.isCurrentTimeGreaterThan12pm() ? "#fc2d00" : "#56636d"}
+          >
+            {utils.isCurrentTimeGreaterThan12pm() ? "Game expires in" : "Game Starts In"}
+          </GameExpiryText>
+          <Countdown 
+            date={todayInMilliSeconds - (utils.isCurrentTimeGreaterThan12pm() ? milliSecondsTill4pm : milliSecondsTill12pm)}
+            onComplete={() => window.location.reload()}
+            renderer={props => 
+              <CountdownText>
+                {`${utils.padNumWithZero(props.hours)}:${utils.padNumWithZero(props.minutes)}:${utils.padNumWithZero(props.seconds)}`}
+              </CountdownText>} 
+          />
+          <Button 
+            onClick={() => History.push('/games/play')}
+            // disabled={!utils.isCurrentTimeGreaterThan12pm()}
+          >
+            Play Game
+          </Button>
         </GameExpiryContainer>
 
         <GameInformation>

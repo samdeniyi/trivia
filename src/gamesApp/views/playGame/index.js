@@ -53,7 +53,7 @@ const LatestResults = () => {
           <ProgressbarContainer>
             <CircularProgressbar
               value={66} 
-              text={`5/20`}
+              text={`1/20`}
               strokeWidth={8}
               styles={{
                 root: {
@@ -79,28 +79,28 @@ const LatestResults = () => {
           
           <QuestionContainer>
             <QuestionText>
-              What is Quagmire’s mischievious catchphrase?
+              What is the opposite of bad?
             </QuestionText>
           </QuestionContainer>
           <AnswerContainer>
             <AnswerCard>
               <AnswerText>
-                Giggity
+                Good
               </AnswerText>
             </AnswerCard>
             <AnswerCard>
               <AnswerText>
-                Poopity
+                Sweet
               </AnswerText>
             </AnswerCard>
             <AnswerCard>
               <AnswerText>
-                Sniggity
+                Light
               </AnswerText>
             </AnswerCard>
-            <AnswerCard bgc="red">
-              <AnswerText color="white">
-                Slurpity
+            <AnswerCard bgc="">
+              <AnswerText color="">
+                Right
               </AnswerText>
             </AnswerCard>
           </AnswerContainer>

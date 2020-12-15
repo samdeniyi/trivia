@@ -23,6 +23,7 @@ const InputWithLabel = props => {
         id,
         placeholder,
         valid,
+        hasError,
         errors,
         name,
         width,
@@ -54,7 +55,7 @@ const InputWithLabel = props => {
     const [input, meta] = useField(name);
 
     return (
-        <InputLabelBlock left={left} right={right} id={id} height={height} width={width} valid={valid} error={errors} bottom={bottom} top={top}>
+        <InputLabelBlock left={left} right={right} id={id} height={height} width={width} valid={valid} error={errors} bottom={bottom} top={top} hasError={hasError}>
             <InputWithValidation
                 placeholder={placeholder}
                 countryselection={countryselection && countryselection.toString()}

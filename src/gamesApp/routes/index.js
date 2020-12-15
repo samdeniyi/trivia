@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Username from '../views/username';
-import Home from '../views/home'
+import Username from '../containers/username';
+import Home from '../containers/home';
 import LatestResults from '../views/latestResults';
 import GamePass from '../views/gameResult/gamePass';
 import GameFail from '../views/gameResult/gameFail';
-import PlayGame from '../views/playGame';
+import PlayGame from '../containers/playGame';
 
 export const gameRoutes = [
   {
