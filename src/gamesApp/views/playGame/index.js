@@ -1,5 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import Countdown from 'react-countdown';
 import 'react-circular-progressbar/dist/styles.css';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { SpacesHeader } from '../../../components/spaces-header';
@@ -24,10 +25,75 @@ import {
   AnswerCard,
   AnswerText,
 } from './styles';
+import { utils } from '../../utils';
+import { useIsMount } from '../../hooks';
+import History from '../../../utils/History';
 
 
-const LatestResults = () => {
+const LatestResults = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, score, loading }) => {
+  const isMount = useIsMount();
+
   const [openTerms, setOpenTerms] = useState(false);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
+  const [showWrongAnswer, setShowWrongAnswer] = useState(false);
+  const [countdownInterval, setCountdownInterval] = useState(10000);
+
+  const currentQuestion = questions[questionIndex];
+  const todayInMilliSeconds = Date.now();
+
+  const handleNextQuestion = () => {
+    setSelectedAnswer('');
+    setCorrectAnswer('');
+    setShowCorrectAnswer(false);
+    setShowWrongAnswer(false);
+    setCountdownInterval(10000);
+    if (questionIndex < questions?.length) {
+      setQuestionIndex(questionIndex + 1);
+    }
+    if (questionIndex === questions?.length - 1) {
+      if (score === questions?.length) {
+        History.push('/games/result-pass', { score, totalScore: questions?.length });
+      } else {
+        History.push('/games/result-fail', { score, totalScore: questions?.length });
+      }
+    }
+  }
+
+  const handleSelectAnswer = (answer) => {
+    if (showCorrectAnswer) {
+      return null;
+    }
+    if (showWrongAnswer) {
+      return null
+    }
+    setSelectedAnswer(answer);
+    getQuestionAnswer(currentQuestion.questionText, answer)
+  }
+
+  useEffect(() => {
+    // Dont't trigger on first render
+    if (!isMount) {
+      if (!loading) {
+        if (correctanswer === selectedAnswer) {
+          setShowCorrectAnswer(true);
+          setTimeout(() => {
+            handleNextQuestion();
+          }, 3000);
+        }
+
+        if (correctanswer !== '' && selectedAnswer !== '' && correctanswer !== selectedAnswer) {
+          setShowWrongAnswer(true);
+          setTimeout(() => {
+            handleNextQuestion();
+          }, 3000);
+        }
+      }
+    }
+  }, [selectedAnswer, correctanswer, loading])
+
+  console.log('score ==>', score);
 
   return (
     <Fragment>
@@ -52,8 +118,8 @@ const LatestResults = () => {
           </PageHeader>
           <ProgressbarContainer>
             <CircularProgressbar
-              value={66} 
-              text={`1/20`}
+              value={(questionIndex / questions?.length) * 100}
+              text={`${questionIndex + 1}/${questions?.length}`}
               strokeWidth={8}
               styles={{
                 root: {
@@ -72,37 +138,51 @@ const LatestResults = () => {
                 }
               }}
             />
-            <CountdownText>
-              00:60
-            </CountdownText>
+            {(!showWrongAnswer && !showCorrectAnswer) && <Countdown
+              overtime
+              date={todayInMilliSeconds + countdownInterval}
+              onComplete={() => handleNextQuestion()}
+              // onComplete={() => window.location.reload()}
+              renderer={props =>
+                <CountdownText>
+                  {`${utils.padNumWithZero(props.minutes)}:${utils.padNumWithZero(props.seconds)}`}
+                </CountdownText>
+              }
+            />}
           </ProgressbarContainer>
-          
+
           <QuestionContainer>
             <QuestionText>
-              What is the opposite of bad?
+              {currentQuestion?.questionText}
             </QuestionText>
           </QuestionContainer>
           <AnswerContainer>
-            <AnswerCard>
-              <AnswerText>
-                Good
-              </AnswerText>
-            </AnswerCard>
-            <AnswerCard>
-              <AnswerText>
-                Sweet
-              </AnswerText>
-            </AnswerCard>
-            <AnswerCard>
-              <AnswerText>
-                Light
-              </AnswerText>
-            </AnswerCard>
-            <AnswerCard bgc="">
-              <AnswerText color="">
-                Right
-              </AnswerText>
-            </AnswerCard>
+            {utils.shuffleArray(currentQuestion?.options)?.map((item, index) =>
+              <>
+                {!showCorrectAnswer &&
+                  <AnswerCard
+                    bgc={(showWrongAnswer && item === selectedAnswer) ? '#da4822' : (showWrongAnswer && item === correctanswer) ? '#4dbe58' : "#fff"}
+                    key={`${index}${item}`}
+                    onClick={() => handleSelectAnswer(item)}
+                  >
+                    <AnswerText color={(showWrongAnswer && (item === selectedAnswer || item === correctanswer)) ? "#fff" : "#000"}>
+                      {item}
+                    </AnswerText>
+                  </AnswerCard>}
+
+                {showCorrectAnswer && (item === correctanswer) &&
+                  <AnswerCard
+                    bgc="#4dbe58"
+                    key={`${index}${item}ans`}
+                    onClick={() => handleSelectAnswer(item)}
+                  >
+                    <AnswerText color="#fff">
+                      {item}
+                    </AnswerText>
+                  </AnswerCard>}
+              </>
+
+            )}
           </AnswerContainer>
         </FragmentWrapper>
       </PageContainer>

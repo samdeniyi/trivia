@@ -2,14 +2,19 @@ import { api } from "../constants/api";
 import { utils } from "../utils";
 
 const getAllChallenges = () => {
-  return utils.getRequest(`${api.GET_ALL_CHALLENGES}?page=0&pageSize=2`);
+  return utils.getRequest(`${api.GET_ALL_CHALLENGES}`);
 }
 
 const updateGamesUsername = (payload) => {
   return utils.postRequest(`${api.UPDATE_USERNAME}`, payload);
 }
 
+const getQuestionAnswer = (challengeId, question) => {
+  return utils.getRequest(`${api.GET_QUESTION_ANSWER}?challengeId=${challengeId}&question=${question}`);
+}
+
 export const gameService = {
   getAllChallenges,
-  updateGamesUsername
+  updateGamesUsername,
+  getQuestionAnswer,
 };

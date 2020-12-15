@@ -25,10 +25,12 @@ import {
   ButtonContainer,
   ButtonWrapper,
 } from './styles';
+import History from '../../../utils/History';
 
 
 const LatestResults = () => {
   const [openTerms, setOpenTerms] = useState(false);
+  const {score, totalScore} = History?.location?.state;
 
   return (
     <Fragment>
@@ -52,7 +54,7 @@ const LatestResults = () => {
       </TryAgainTitle>
 
       <TryAgainDescription>
-        You answered 2 questions wrong. 
+        You answered {totalScore - score} questions wrong. 
         You have to answer all questions right to earn a reward. 
         Don’t forget to try again tomorrow for a better score!
       </TryAgainDescription>
@@ -66,14 +68,14 @@ const LatestResults = () => {
           </ScoreTitleBox>
           <ScoreInnerBox>
             <ScoreText>
-              35 / 125
+              {score} / {totalScore}
             </ScoreText>
           </ScoreInnerBox>
         </ScoreContainer>
 
         <ButtonContainer>
           <ButtonWrapper>
-            <Button>Okay</Button>
+            <Button onClick={() => History.push('/')}>Okay</Button>
           </ButtonWrapper>
         </ButtonContainer>
 
