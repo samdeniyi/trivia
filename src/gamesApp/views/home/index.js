@@ -100,7 +100,7 @@ const Home = () => {
           />
           <Button 
             onClick={() => History.push('/games/play')}
-            // disabled={!utils.isCurrentTimeGreaterThan12pm()}
+            disabled={!utils.isCurrentTimeGreaterThan12pm()}
           >
             Play Game
           </Button>
