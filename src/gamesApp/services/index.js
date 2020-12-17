@@ -13,8 +13,13 @@ const getQuestionAnswer = (challengeId, question) => {
   return utils.getRequest(`${api.GET_QUESTION_ANSWER}?challengeId=${challengeId}&question=${question}`);
 }
 
+const submitChallenge = (payload) => {
+  return utils.postRequest(`${api.SUBMIT_CHALLENGE}`, payload)
+}
+
 export const gameService = {
   getAllChallenges,
   updateGamesUsername,
   getQuestionAnswer,
+  submitChallenge,
 };

@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
 import Countdown from 'react-countdown';
 import 'react-circular-progressbar/dist/styles.css';
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -27,10 +26,9 @@ import {
 } from './styles';
 import { utils } from '../../utils';
 import { useIsMount } from '../../hooks';
-import History from '../../../utils/History';
 
 
-const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, score, loading, setLoading }) => {
+const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, score, loading, submitChallenge }) => {
   const isMount = useIsMount();
 
   const [openTerms, setOpenTerms] = useState(false);
@@ -39,7 +37,6 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [showWrongAnswer, setShowWrongAnswer] = useState(false);
   const [countdownInterval, setCountdownInterval] = useState(60000);
-  const [userScore, setUserScore] = useState(0);
 
   const currentQuestion = questions[questionIndex];
   const todayInMilliSeconds = Date.now();
@@ -50,30 +47,21 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
     setShowCorrectAnswer(false);
     setShowWrongAnswer(false);
     setCountdownInterval(60000);
-    if (questionIndex < questions?.length) {
+    if (questionIndex < questions?.length - 1) {
       setQuestionIndex(questionIndex + 1);
+      return;
     }
     if (questionIndex === questions?.length - 1) {
-      setLoading(true)
-      setTimeout(() => {
-        setLoading(false)
-        console.log(userScore, score)
-        if (score === questions?.length) {
-          History.push('/games/result-pass', { totalScore: questions?.length });
-        } else {
-          History.push('/games/result-fail', { score, totalScore: questions?.length });
-        }
-      }, 2000);
-
+      submitChallenge();
     }
-  }, [questionIndex, score, questions, setCorrectAnswer, setLoading])
+  }, [questionIndex, questions, setCorrectAnswer, submitChallenge])
 
   const handleSelectAnswer = (answer) => {
     if (showCorrectAnswer) {
-      return null;
+      return;
     }
     if (showWrongAnswer) {
-      return null
+      return;
     }
     setSelectedAnswer(answer);
     getQuestionAnswer(currentQuestion.questionText, answer)
@@ -88,6 +76,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
           setTimeout(() => {
             handleNextQuestion();
           }, 3000);
+          return;
         }
 
         if (correctanswer !== '' && selectedAnswer !== '' && correctanswer !== selectedAnswer) {
@@ -95,19 +84,14 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
           setTimeout(() => {
             handleNextQuestion();
           }, 3000);
+          return;
         }
       }
 
     }
   }, [selectedAnswer, correctanswer, loading, handleNextQuestion, isMount]);
 
-  useEffect(() => {
-    setUserScore(score);
-  }, [score])
-
-  console.log('score ==>', score, userScore, 'length', questions?.length);
-  console.log('showWrongAnswer', showWrongAnswer);
-  console.log('showCorrectAnswer', showCorrectAnswer);
+  console.log(!!selectedAnswer, !!correctanswer)
 
   return (
     <Fragment>
@@ -206,4 +190,4 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
 
 PlayGame.propTypes = {};
 
-export default connect()(PlayGame);
+export default PlayGame;

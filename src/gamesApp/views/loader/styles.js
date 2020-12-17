@@ -12,8 +12,12 @@ const Overlay = styled.div`
     height: 100%;
     z-index: 99999;
     background-image: url(${LoaderBg});
+    background-size: cover;
     background-color: #23a8ff;
     transition: all .2s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const LoaderIconContainer= styled.div`
