@@ -13,6 +13,7 @@ const UsernameContainer = () => {
     gameService.updateGamesUsername(payload).then(res => {
       setLoading(false)
       if(res.status === 200){
+        localStorage.setItem('gamesUserName', payload.gamesUserName);
         History.push('/games');
       } else {
         toast.error(res.response ? res.response.data.message : "An error occured");

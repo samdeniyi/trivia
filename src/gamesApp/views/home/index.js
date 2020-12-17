@@ -37,6 +37,7 @@ import History from '../../../utils/History';
 
 const Home = () => {
   const [openTerms, setOpenTerms] = useState(false);
+  const gamesUserName = localStorage.getItem('gamesUserName');
 
   const currentTimeGreaterThan12pm = utils.isCurrentTimeGreaterThan12pm();
   const currentTimeGreaterThan4pm = utils.isCurrentTimeGreaterThan4pm();
@@ -57,7 +58,7 @@ const Home = () => {
       <PageHeader>
         <LeftSide>
           <HeaderAvatar src={Avatar} />
-          <PageHeaderText>Welcome, JohnDoeOne</PageHeaderText>
+          <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>
           <QuestionMark onClick={() => setOpenTerms(true)} />
@@ -116,7 +117,11 @@ const Home = () => {
             <InfoIcon />
           </InfoLeftSide>
           <InfoRightSide>
-            <GameInformationText>Game is only open between <strong>12pm and 4pm daily</strong> and can be played only <strong>once.</strong></GameInformationText>
+            <GameInformationText>Game is only open between 
+              <strong>12pm and 4pm daily</strong> 
+              and can be played only 
+              <strong>once.</strong>
+            </GameInformationText>
           </InfoRightSide>
         </GameInformation>
       </FragmentWrapper>
