@@ -5,6 +5,7 @@ import Loader from '../../views/loader';
 import { gameService } from '../../services';
 import History from '../../../utils/History';
 import { utils } from '../../utils';
+import { toast } from 'react-toastify';
 
 const PlayGameContainer = ({ userId }) => {
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ const PlayGameContainer = ({ userId }) => {
         setCorrectAnswer(answer);
         if (answer === selectedAnswer) {
           setScore(score + 1);
+          sumbitAfterAnsweringQuestion();
         }
       }
     })
@@ -34,6 +36,7 @@ const PlayGameContainer = ({ userId }) => {
       if (res.status === 200) {
         if (res?.data.length < 1) {
           History.push('/games');
+          toast.error('No challenge found for today.')
         } else {
           // Pick a random challenge from the list of daily challenges
           const randomIndex = Math.floor(Math.random() * res?.data.length);
@@ -41,10 +44,25 @@ const PlayGameContainer = ({ userId }) => {
           setChallengeId(challenge?.id);
           setQuestions(utils.shuffleArray(JSON.parse(challenge?.questions)));
         }
-
       };
       console.log('get games response =>', res);
     })
+  }
+
+  const sumbitAfterAnsweringQuestion = () => {
+    setScore((score) => {
+      setLoading(true);
+      const payload = {
+        challengeId,
+        pointsAccrued: score,
+        questionScore: questions?.length,
+        userId
+      }
+      gameService.submitChallenge(payload).then(res => {
+        setLoading(false);
+      });
+      return score;
+    });
   }
 
   const submitChallenge = () => {
@@ -54,7 +72,7 @@ const PlayGameContainer = ({ userId }) => {
       const payload = {
         challengeId,
         pointsAccrued: score,
-        questionScore: 1,
+        questionScore: questions?.length,
         userId
       }
       gameService.submitChallenge(payload).then(res => {
@@ -62,7 +80,7 @@ const PlayGameContainer = ({ userId }) => {
         // if(res.status === 200){
         console.log('scoreed ==>', score);
         if (score === questions.length && score > 0) {
-          History.push('/games/result-pass', { totalScore: questions?.length });
+          return History.push('/games/result-pass', { totalScore: questions?.length });
         } else {
           History.push('/games/result-fail', { score, totalScore: questions?.length });
         }
@@ -73,8 +91,24 @@ const PlayGameContainer = ({ userId }) => {
     });
   }
 
+  const fetchSubmissionsForToday = () => {
+    setLoading(true);
+    gameService.getSubmissionsForToday(userId).then(res => {
+      setLoading(false);
+      if(res.status === 200){
+        if(res.data){
+          History.push('/games/latest-results', {data: res.data});
+          console.log('existing submission', res);
+        }
+      } else {
+        fetchChallenges();
+      }
+    })
+  };
+
   useEffect(() => {
-    fetchChallenges();
+    fetchSubmissionsForToday();
+    // fetchChallenges();
   }, []);
 
   console.log('score', score);

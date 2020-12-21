@@ -26,10 +26,13 @@ import {
   ScoreTitleBox,
   ScoreTitleText,
 } from './styles';
+import History from '../../../utils/History';
 
 
 const LatestResults = () => {
   const [openTerms, setOpenTerms] = useState(false);
+  const {data} = History?.location?.state;
+  const gamesUserName = localStorage.getItem('gamesUserName');
 
   return (
     <Fragment>
@@ -38,7 +41,7 @@ const LatestResults = () => {
       <PageHeader>
         <LeftSide>
           <HeaderAvatar src={Avatar} />
-          <PageHeaderText>Welcome, JohnDoeOne</PageHeaderText>
+          <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>
           <QuestionMark onClick={() => setOpenTerms(true)} />
@@ -60,7 +63,8 @@ const LatestResults = () => {
           </ScoreTitleBox>
           <ScoreInnerBox>
             <ScoreText>
-              35 / 125
+              {/* 35 / 125 */}
+              {`${data.pointsAccrued} / ${data.questionScore}`}
             </ScoreText>
           </ScoreInnerBox>
         </ScoreContainer>

@@ -31,6 +31,7 @@ import History from '../../../utils/History';
 const LatestResults = () => {
   const [openTerms, setOpenTerms] = useState(false);
   const {score, totalScore} = History?.location?.state;
+  const gamesUserName = localStorage.getItem('gamesUserName');
 
   return (
     <Fragment>
@@ -39,7 +40,7 @@ const LatestResults = () => {
       <PageHeader>
         <LeftSide>
           <HeaderAvatar src={Avatar} />
-          <PageHeaderText>Welcome, JohnDoeOne</PageHeaderText>
+          <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>
           <QuestionMark onClick={() => setOpenTerms(true)} />

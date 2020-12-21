@@ -17,9 +17,14 @@ const submitChallenge = (payload) => {
   return utils.postRequest(`${api.SUBMIT_CHALLENGE}`, payload)
 }
 
+const getSubmissionsForToday = (userId) => {
+  return utils.getRequest(`${api.GET_SUBMISSIONS_FOR_TODAY}?userId=${userId}`);
+}
+
 export const gameService = {
   getAllChallenges,
   updateGamesUsername,
   getQuestionAnswer,
   submitChallenge,
+  getSubmissionsForToday,
 };

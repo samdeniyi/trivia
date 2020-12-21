@@ -52,7 +52,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
       return;
     }
     if (questionIndex === questions?.length - 1) {
-      submitChallenge();
+      submitChallenge(true);
     }
   }, [questionIndex, questions, setCorrectAnswer, submitChallenge])
 
@@ -90,8 +90,6 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
 
     }
   }, [selectedAnswer, correctanswer, loading, handleNextQuestion, isMount]);
-
-  console.log(!!selectedAnswer, !!correctanswer)
 
   return (
     <Fragment>
@@ -179,7 +177,6 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
                     </AnswerText>
                   </AnswerCard>}
               </>
-
             )}
           </AnswerContainer>
         </FragmentWrapper>
