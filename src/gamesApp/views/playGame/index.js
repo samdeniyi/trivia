@@ -28,7 +28,7 @@ import { utils } from '../../utils';
 import { useIsMount } from '../../hooks';
 
 
-const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, score, loading, submitChallenge }) => {
+const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, loading, submitChallenge }) => {
   const isMount = useIsMount();
 
   const [openTerms, setOpenTerms] = useState(false);

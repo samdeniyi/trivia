@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import History from '../../../utils/History';
+import { gameService } from '../../services';
 import Home from '../../views/home';
 import Loader from '../../views/loader';
 
-const HomeContainer = (gamesUserName) => {
+const HomeContainer = ({userId}) => {
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const gamesUserName = localStorage.getItem('gamesUserName')
+  const getGamesUsername = () => {
     setLoading(true);
-    setTimeout(() => {
+    gameService.getGamesUsername(userId).then(res => {
       setLoading(false);
-    }, 2000);
-    if(!gamesUserName){
-      History.push('/games/username');
-    }
-  }, [gamesUserName]);
+      if(res.status === 200){
+        console.log(res);
+        localStorage.setItem('gamesUserName', res.data.gamesUserName);
+      } else {
+        History.push('/games/username');
+      }
+    })
+  }
+
+  useEffect(() => {
+    getGamesUsername();
+  }, []);
 
   return (
     <>
@@ -27,7 +34,7 @@ const HomeContainer = (gamesUserName) => {
 }
 
 const mapStateToProps = (state) => ({
-  gamesUserName: state.user?.gamesUserName,
+  userId: state.user?.userId,
 });
 
 export default connect(mapStateToProps)(HomeContainer);

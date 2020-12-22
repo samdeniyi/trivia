@@ -21,10 +21,15 @@ const getSubmissionsForToday = (userId) => {
   return utils.getRequest(`${api.GET_SUBMISSIONS_FOR_TODAY}?userId=${userId}`);
 }
 
+const getGamesUsername = (userId) => {
+  return utils.getRequest(`${api.GET_GAMES_USERNAME}?userId=${userId}`);
+}
+
 export const gameService = {
   getAllChallenges,
   updateGamesUsername,
   getQuestionAnswer,
   submitChallenge,
   getSubmissionsForToday,
+  getGamesUsername,
 };

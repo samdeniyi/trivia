@@ -77,22 +77,26 @@ export const utils = {
   },
 
   shuffleArray(arra1) {
-    let ctr = arra1?.length;
-    let temp;
-    let index;
-
-    // While there are elements in the array
-    while (ctr > 0) {
-      // Pick a random index
-      index = Math.floor(Math.random() * ctr);
-      // Decrease ctr by 1
-      ctr--;
-      // And swap the last element with it
-      temp = arra1[ctr];
-      arra1[ctr] = arra1[index];
-      arra1[index] = temp;
+    if (arra1 && arra1.length > 0) {
+      let ctr = arra1?.length;
+      let temp;
+      let index;
+      // While there are elements in the array
+      while (ctr > 0) {
+        // Pick a random index
+        index = Math.floor(Math.random() * ctr);
+        // Decrease ctr by 1
+        ctr--;
+        // And swap the last element with it
+        temp = arra1[ctr];
+        arra1[ctr] = arra1[index];
+        arra1[index] = temp;
+      }
+      return arra1;
+    } else {
+      return [];
     }
-    return arra1;
+
   },
 
 

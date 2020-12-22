@@ -4,7 +4,6 @@ import PlayGame from '../../views/playGame';
 import Loader from '../../views/loader';
 import { gameService } from '../../services';
 import History from '../../../utils/History';
-import { utils } from '../../utils';
 import { toast } from 'react-toastify';
 
 const PlayGameContainer = ({ userId }) => {
@@ -13,6 +12,7 @@ const PlayGameContainer = ({ userId }) => {
   const [challengeId, setChallengeId] = useState('');
   const [correctanswer, setCorrectAnswer] = useState('');
   const [score, setScore] = useState(0);
+  const [finalSubmissionDone, setFinalSubmissionDone] = useState(false);
 
   const getQuestionAnswer = (question, selectedAnswer) => {
     setLoading(true);
@@ -39,10 +39,12 @@ const PlayGameContainer = ({ userId }) => {
           toast.error('No challenge found for today.')
         } else {
           // Pick a random challenge from the list of daily challenges
-          const randomIndex = Math.floor(Math.random() * res?.data.length);
+          console.log('challenge response', res)
+          const randomIndex = Math.floor(Math.random() * res?.data?.length);
           const challenge = res?.data[randomIndex];
           setChallengeId(challenge?.id);
-          setQuestions(utils.shuffleArray(JSON.parse(challenge?.questions)));
+          console.log('challenge', challenge);
+          setQuestions(challenge?.questions);
         }
       };
       console.log('get games response =>', res);
@@ -55,7 +57,7 @@ const PlayGameContainer = ({ userId }) => {
       const payload = {
         challengeId,
         pointsAccrued: score,
-        questionScore: questions?.length,
+        questionScore: `${questions?.length}`,
         userId
       }
       gameService.submitChallenge(payload).then(res => {
@@ -72,21 +74,27 @@ const PlayGameContainer = ({ userId }) => {
       const payload = {
         challengeId,
         pointsAccrued: score,
-        questionScore: questions?.length,
+        questionScore: `${questions?.length}`,
         userId
       }
-      gameService.submitChallenge(payload).then(res => {
-        setLoading(false);
-        // if(res.status === 200){
-        console.log('scoreed ==>', score);
-        if (score === questions.length && score > 0) {
-          return History.push('/games/result-pass', { totalScore: questions?.length });
-        } else {
-          History.push('/games/result-fail', { score, totalScore: questions?.length });
+      setFinalSubmissionDone((finalSubmissionIsDone) => {
+        if (finalSubmissionDone === false) {
+          gameService.submitChallenge(payload).then(res => {
+            setLoading(false);
+            setFinalSubmissionDone(true);
+            // if(res.status === 200){
+            console.log('scoreed ==>', score);
+            if (score === questions.length && score > 0) {
+              return History.push('/games/result-pass', { totalScore: questions?.length });
+            } else {
+              History.push('/games/result-fail', { score, totalScore: questions?.length });
+            }
+            // }
+          });
         }
-        // }
-        
-      });
+        return finalSubmissionIsDone;
+      })
+
       return score;
     });
   }
@@ -95,9 +103,9 @@ const PlayGameContainer = ({ userId }) => {
     setLoading(true);
     gameService.getSubmissionsForToday(userId).then(res => {
       setLoading(false);
-      if(res.status === 200){
-        if(res.data){
-          History.push('/games/latest-results', {data: res.data});
+      if (res.status === 200) {
+        if (res.data) {
+          History.push('/games/latest-results', { data: res.data });
           console.log('existing submission', res);
         }
       } else {
