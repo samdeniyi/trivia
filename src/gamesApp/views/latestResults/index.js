@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { SpacesHeader } from '../../../components/spaces-header';
 import { ReactComponent as QuestionMark } from '../../assets/icons/question-mark.svg';
 import { ReactComponent as InfoIcon } from '../../assets/icons/info-icon.svg';
-import Avatar from '../../assets/img/passport.jpeg';
 import TermsDialog from '../terms';
-import PreviousWinners from '../previousWinners';
+import PreviousWinners from '../../containers/previousWinner';
 import {
   FragmentWrapper,
   PageHeader,
@@ -25,11 +24,12 @@ import {
   ScoreText,
   ScoreTitleBox,
   ScoreTitleText,
+  // WinnerAvatar,
 } from './styles';
 import History from '../../../utils/History';
 
 
-const LatestResults = () => {
+const LatestResults = ({avatar}) => {
   const [openTerms, setOpenTerms] = useState(false);
   const {data} = History?.location?.state;
   const gamesUserName = localStorage.getItem('gamesUserName');
@@ -40,7 +40,7 @@ const LatestResults = () => {
       <SpacesHeader />
       <PageHeader>
         <LeftSide>
-          <HeaderAvatar src={Avatar} />
+          <HeaderAvatar src={avatar} />
           <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>
@@ -51,7 +51,8 @@ const LatestResults = () => {
         LATEST RESULTS
       </SubHeader>
       <UserAvatarContainer>
-        <UserAvatar src={Avatar} />
+        <UserAvatar src={avatar} />
+        {/* <WinnerAvatar src={avatar} /> */}
       </UserAvatarContainer>
 
       <FragmentWrapper>
@@ -85,4 +86,8 @@ const LatestResults = () => {
 
 LatestResults.propTypes = {};
 
-export default connect()(LatestResults);
+const mapStateToProps = ({ user }) => ({
+  avatar: user.avatar,
+});
+
+export default connect(mapStateToProps)(LatestResults);

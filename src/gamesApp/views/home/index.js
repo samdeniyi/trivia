@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Countdown from 'react-countdown';
 import { SpacesHeader } from '../../../components/spaces-header';
@@ -8,9 +8,8 @@ import { ReactComponent as MultipleChoiceIcon } from '../../assets/icons/multipl
 import { ReactComponent as TimeFrameIcon } from '../../assets/icons/time-frame.svg';
 import { ReactComponent as RewardsIcon } from '../../assets/icons/rewards.svg';
 import { ReactComponent as InfoIcon } from '../../assets/icons/info-icon.svg';
-import Avatar from '../../assets/img/passport.jpeg';
 import TermsDialog from '../terms';
-import PreviousWinners from '../previousWinners';
+import PreviousWinners from '../../containers/previousWinner';
 import Loader from '../loader';
 import {
   FragmentWrapper,
@@ -35,9 +34,9 @@ import { utils } from '../../utils';
 import History from '../../../utils/History';
 
 
-const Home = () => {
+const Home = ({avatar}) => {
   const [openTerms, setOpenTerms] = useState(false);
-  const gamesUserName = localStorage.getItem('gamesUserName');
+  const [gamesUserName, setGamesUserName] = useState('');
 
   const currentTimeGreaterThan12pm = utils.isCurrentTimeGreaterThan12pm();
   const currentTimeGreaterThan4pm = utils.isCurrentTimeGreaterThan4pm();
@@ -50,6 +49,10 @@ const Home = () => {
   const milliSecondsTill4pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 16:00:00`));
   const milliSecondsTill12pmTomorrow = todayInMilliSeconds - (new Date(`${tomorrowFormattedDate} 12:00:00`));
 
+  useEffect(() => {
+    setGamesUserName(localStorage.getItem('gamesUserName'));
+  }, []);
+
   return (
     <Fragment>
       <Loader open={false} />
@@ -57,7 +60,7 @@ const Home = () => {
       <SpacesHeader />
       <PageHeader>
         <LeftSide>
-          <HeaderAvatar src={Avatar} />
+          <HeaderAvatar src={avatar} />
           <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>
@@ -132,4 +135,8 @@ const Home = () => {
 
 Home.propTypes = {};
 
-export default connect()(Home);
+const mapStateToProps = ({ user }) => ({
+  avatar: user.avatar,
+});
+
+export default connect(mapStateToProps)(Home);

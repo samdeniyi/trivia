@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { SpacesHeader } from '../../../components/spaces-header';
 import {Button} from '../../components';
 import { ReactComponent as QuestionMark } from '../../assets/icons/question-mark.svg';
-import Avatar from '../../assets/img/passport.jpeg';
 import GameFail from '../../assets/img/game-fail.svg';
 import TermsDialog from '../terms';
 import {
@@ -28,7 +27,7 @@ import {
 import History from '../../../utils/History';
 
 
-const LatestResults = () => {
+const LatestResults = ({avatar}) => {
   const [openTerms, setOpenTerms] = useState(false);
   const {score, totalScore} = History?.location?.state;
   const gamesUserName = localStorage.getItem('gamesUserName');
@@ -39,7 +38,7 @@ const LatestResults = () => {
       <SpacesHeader />
       <PageHeader>
         <LeftSide>
-          <HeaderAvatar src={Avatar} />
+          <HeaderAvatar src={avatar} />
           <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>
@@ -87,4 +86,8 @@ const LatestResults = () => {
 
 LatestResults.propTypes = {};
 
-export default connect()(LatestResults);
+const mapStateToProps = ({ user }) => ({
+  avatar: user.avatar,
+});
+
+export default connect(mapStateToProps)(LatestResults);

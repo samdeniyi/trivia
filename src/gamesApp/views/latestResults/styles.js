@@ -113,6 +113,29 @@ const UserAvatarContainer = styled.div`
   justify-content: center;
 `;
 
+const WinnerAvatar= styled.img`
+    display: block;
+    width: 124px;
+    height: 124px;
+    border-radius: 50%;
+    border: solid 4px #22a8ff;
+    margin-right: 15px;
+    position: relative;
+    top: 10px;
+      &:before {
+        background: none;
+        border: 4px solid #fff;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        right: 4px;
+        bottom: 4px;
+        pointer-events: none;
+      }
+`;
+
 const ScoreContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -188,6 +211,7 @@ export {
   InfoRightSide,
   UserAvatar,
   UserAvatarContainer,
+  WinnerAvatar,
   ScoreContainer,
   ScoreInnerBox,
   ScoreText,

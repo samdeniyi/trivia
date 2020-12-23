@@ -141,6 +141,25 @@ text-align: right;
 font-weight: bold;
 `;
 
+const WinnerUsername = styled.p`
+font-family: Montserrat;
+font-size: 10px;
+font-weight: 500;
+text-align: center;
+color: #212121;
+line-height: 0.1;
+`;
+
+const WinnerAmountText= styled.p`
+  font-family: Montserrat;
+  font-size: 9px;
+  font-weight: 600;
+  text-align: center;
+  color: #22a8ff;
+  position: relative;
+  top: -10px;
+`;
+
 export {
   Wrapper,
   FirstPositionImage,
@@ -161,4 +180,6 @@ export {
   IconContainer,
   BoldText,
   AmountText,
+  WinnerUsername,
+  WinnerAmountText,
 }

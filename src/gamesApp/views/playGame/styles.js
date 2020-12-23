@@ -53,7 +53,7 @@ const MiddleSide = styled.div`
 `;
 
 const RightSide = styled.div`
-flex: 10%;
+  flex: 10%;
 `;
 
 const HeaderAvatar = styled.img`
@@ -74,7 +74,7 @@ const CloseIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 0.3px #fff;
+  // border: solid 0.3px #fff;
   // box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.25);
 `;
 
@@ -158,6 +158,33 @@ const AnswerText = styled.p`
   color: ${({ color }) => color || '#000'};
 `;
 
+const PopUp = styled.div`
+    display: ${props => props.open ? 'flex' : 'none'};
+    font-family: Montserrat;
+    align-items: flex-end;
+    justify-content: center;
+    text-align: center;
+    position: fixed;
+    //top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: ${({ zIndex }) => zIndex || '1000'};
+    padding: 8px;
+    max-height: 50%;
+    transition: opacity 0.5s linear;
+    opacity: 1;
+    animation: openPopup 0.3s ease-out;
+    @keyframes openPopup {
+        0% {
+            transform: translateY(100%);
+        }
+
+        100% {
+            transform: translateY(0%);
+        }
+`;
+
 export {
   FragmentWrapper,
   PageHeader,
@@ -176,4 +203,5 @@ export {
   AnswerContainer,
   AnswerCard,
   AnswerText,
+  PopUp,
 }

@@ -27,7 +27,7 @@ import {
 } from './styles';
 import History from '../../../utils/History';
 
-const LatestResults = () => {
+const LatestResults = ({avatar}) => {
   const [openTerms, setOpenTerms] = useState(false);
   const {totalScore} = History?.location?.state;
   const gamesUserName = localStorage.getItem('gamesUserName');
@@ -38,7 +38,7 @@ const LatestResults = () => {
       <SpacesHeader />
       <PageHeader>
         <LeftSide>
-          <HeaderAvatar src={Avatar} />
+          <HeaderAvatar src={avatar} />
           <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>
@@ -85,4 +85,8 @@ const LatestResults = () => {
 
 LatestResults.propTypes = {};
 
-export default connect()(LatestResults);
+const mapStateToProps = ({ user }) => ({
+  avatar: user.avatar,
+});
+
+export default connect(mapStateToProps)(LatestResults);

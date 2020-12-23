@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import { connect } from 'react-redux';
 import Countdown from 'react-countdown';
 import 'react-circular-progressbar/dist/styles.css';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { SpacesHeader } from '../../../components/spaces-header';
-import Avatar from '../../assets/img/passport.jpeg';
 import TermsDialog from '../terms';
 import {
   FragmentWrapper,
@@ -26,11 +26,13 @@ import {
 } from './styles';
 import { utils } from '../../utils';
 import { useIsMount } from '../../hooks';
+import QuitGameDialog from './quitGameModal';
 
 
-const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, loading, submitChallenge }) => {
+const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, loading, submitChallenge, avatar }) => {
   const isMount = useIsMount();
 
+  const [openQuitGame, setOpenQuitGame] = useState(false);
   const [openTerms, setOpenTerms] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -52,9 +54,9 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
       return;
     }
     if (questionIndex === questions?.length - 1) {
-      submitChallenge(true);
+      submitChallenge(currentQuestion?.questionText, selectedAnswer, currentQuestion?.options);
     }
-  }, [questionIndex, questions, setCorrectAnswer, submitChallenge])
+  }, [questionIndex, questions, setCorrectAnswer, submitChallenge, currentQuestion.questionText, currentQuestion.options, selectedAnswer]);
 
   const handleSelectAnswer = (answer) => {
     if (showCorrectAnswer) {
@@ -64,7 +66,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
       return;
     }
     setSelectedAnswer(answer);
-    getQuestionAnswer(currentQuestion.questionText, answer)
+    getQuestionAnswer(currentQuestion?.questionText, answer, currentQuestion?.options);
   }
 
   useEffect(() => {
@@ -89,24 +91,25 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
       }
 
     }
-  }, [selectedAnswer, correctanswer, loading, handleNextQuestion, isMount]);
+  }, [correctanswer]);
 
   return (
     <Fragment>
       <SpacesHeader />
       <PageContainer>
+        <QuitGameDialog open={openQuitGame} cancel={() => setOpenQuitGame(false)} />
         <TermsDialog open={openTerms} cancel={() => setOpenTerms(false)} />
         <FragmentWrapper>
           <PageHeader>
             <LeftSide>
-              <HeaderAvatar src={Avatar} />
+              <HeaderAvatar src={avatar} />
             </LeftSide>
             <MiddleSide>
               <PageHeaderText>Spaces Trivia!</PageHeaderText>
             </MiddleSide>
             <RightSide>
               <CloseIconContainer>
-                <CloseIconText>
+                <CloseIconText onClick={() => setOpenQuitGame(true)}>
                   x
                 </CloseIconText>
               </CloseIconContainer>
@@ -155,7 +158,6 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
           <AnswerContainer>
             {utils.shuffleArray(currentQuestion?.options)?.map((item, index) =>
               <>
-
                 {!showCorrectAnswer && <AnswerCard
                   bgc={(showWrongAnswer && item === selectedAnswer) ? '#da4822' : (showWrongAnswer && item === correctanswer) ? '#4dbe58' : "#fff"}
                   key={`${index}${item}`}
@@ -187,4 +189,8 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
 
 PlayGame.propTypes = {};
 
-export default PlayGame;
+const mapStateToProps = ({ user }) => ({
+  avatar: user.avatar,
+});
+
+export default connect(mapStateToProps)(PlayGame);

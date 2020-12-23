@@ -13,7 +13,6 @@ const HomeContainer = ({userId}) => {
     gameService.getGamesUsername(userId).then(res => {
       setLoading(false);
       if(res.status === 200){
-        console.log(res);
         localStorage.setItem('gamesUserName', res.data.gamesUserName);
       } else {
         History.push('/games/username');

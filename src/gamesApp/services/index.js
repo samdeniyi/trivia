@@ -25,6 +25,11 @@ const getGamesUsername = (userId) => {
   return utils.getRequest(`${api.GET_GAMES_USERNAME}?userId=${userId}`);
 }
 
+const getTopUsers = () => {
+  return utils.getRequest(`${api.GET_TOP_USERS}`);
+}
+
+
 export const gameService = {
   getAllChallenges,
   updateGamesUsername,
@@ -32,4 +37,5 @@ export const gameService = {
   submitChallenge,
   getSubmissionsForToday,
   getGamesUsername,
+  getTopUsers,
 };

@@ -5,6 +5,7 @@ import Loader from '../../views/loader';
 import { gameService } from '../../services';
 import History from '../../../utils/History';
 import { toast } from 'react-toastify';
+import uniqueBy from 'lodash.uniqby';
 
 const PlayGameContainer = ({ userId }) => {
   const [loading, setLoading] = useState(false);
@@ -13,17 +14,20 @@ const PlayGameContainer = ({ userId }) => {
   const [correctanswer, setCorrectAnswer] = useState('');
   const [score, setScore] = useState(0);
   const [finalSubmissionDone, setFinalSubmissionDone] = useState(false);
+  const [questionSubmission, setQuestionSubmission] = useState([]);
 
-  const getQuestionAnswer = (question, selectedAnswer) => {
+  const getQuestionAnswer = (question, selectedAnswer, selectedOptions) => {
     setLoading(true);
     gameService.getQuestionAnswer(challengeId, question).then(res => {
       setLoading(false);
       if (res.status === 200) {
         const answer = res?.data.toString();
         setCorrectAnswer(answer);
-        if (answer === selectedAnswer) {
+        if (answer.toLowerCase() === selectedAnswer.toLowerCase()) {
           setScore(score + 1);
-          sumbitAfterAnsweringQuestion();
+          sumbitAfterAnsweringQuestion(question, selectedAnswer, selectedOptions);
+        } else {
+          sumbitAfterAnsweringQuestion(question, selectedAnswer, selectedOptions);
         }
       }
     })
@@ -47,21 +51,30 @@ const PlayGameContainer = ({ userId }) => {
           setQuestions(challenge?.questions);
         }
       };
-      console.log('get games response =>', res);
     })
   }
 
-  const sumbitAfterAnsweringQuestion = () => {
+  const sumbitAfterAnsweringQuestion = (question, selectedAnswer, selectedOptions) => {
+    let questionAnswered = questionSubmission.concat({
+      optionSelected: selectedAnswer,
+      options: selectedOptions,
+      questionText: question,
+    }, []);
+    setQuestionSubmission(uniqueBy(questionAnswered, 'questionText'));
     setScore((score) => {
       setLoading(true);
-      const payload = {
-        challengeId,
-        pointsAccrued: score,
-        questionScore: `${questions?.length}`,
-        userId
-      }
-      gameService.submitChallenge(payload).then(res => {
-        setLoading(false);
+      setQuestionSubmission((questionSubmission) => {
+        const payload = {
+          challengeId,
+          pointsAccrued: score,
+          questionScore: `${questions?.length}`,
+          userId,
+          questionSubmissions: questionSubmission,
+        }
+        gameService.submitChallenge(payload).then(res => {
+          setLoading(false);
+        });
+        return questionSubmission;
       });
       return score;
     });
@@ -71,30 +84,32 @@ const PlayGameContainer = ({ userId }) => {
     // TODO prevent multiple calls of this function
     setScore((score) => {
       setLoading(true);
-      const payload = {
-        challengeId,
-        pointsAccrued: score,
-        questionScore: `${questions?.length}`,
-        userId
-      }
-      setFinalSubmissionDone((finalSubmissionIsDone) => {
-        if (finalSubmissionDone === false) {
-          gameService.submitChallenge(payload).then(res => {
-            setLoading(false);
-            setFinalSubmissionDone(true);
-            // if(res.status === 200){
-            console.log('scoreed ==>', score);
-            if (score === questions.length && score > 0) {
-              return History.push('/games/result-pass', { totalScore: questions?.length });
-            } else {
-              History.push('/games/result-fail', { score, totalScore: questions?.length });
-            }
-            // }
-          });
+      setQuestionSubmission((questionSubmission) => {
+        const payload = {
+          challengeId,
+          pointsAccrued: score,
+          questionScore: `${questions?.length}`,
+          userId,
+          questionSubmissions: questionSubmission,
         }
-        return finalSubmissionIsDone;
-      })
-
+        setFinalSubmissionDone((finalSubmissionIsDone) => {
+          if (finalSubmissionDone === false) {
+            gameService.submitChallenge(payload).then(res => {
+              setLoading(false);
+              setFinalSubmissionDone(true);
+              // if(res.status === 200){
+              if (score === questions.length && score > 0) {
+                return History.push('/games/result-pass', { totalScore: questions?.length });
+              } else {
+                History.push('/games/result-fail', { score, totalScore: questions?.length });
+              }
+              // }
+            });
+          }
+          return finalSubmissionIsDone;
+        })
+        return questionSubmission;
+      });
       return score;
     });
   }
@@ -116,10 +131,8 @@ const PlayGameContainer = ({ userId }) => {
 
   useEffect(() => {
     fetchSubmissionsForToday();
-    // fetchChallenges();
+    //fetchChallenges();
   }, []);
-
-  console.log('score', score);
 
   return (
     <>
