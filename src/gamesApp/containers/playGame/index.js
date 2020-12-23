@@ -47,7 +47,6 @@ const PlayGameContainer = ({ userId }) => {
           const randomIndex = Math.floor(Math.random() * res?.data?.length);
           const challenge = res?.data[randomIndex];
           setChallengeId(challenge?.id);
-          console.log('challenge', challenge);
           setQuestions(challenge?.questions);
         }
       };
