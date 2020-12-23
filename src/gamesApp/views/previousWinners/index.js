@@ -66,7 +66,7 @@ const PreviousWinners = ({ winners, userId }) => {
         </ImageContainer>}
 
         {winners.map((item, index) =>
-          <LeaderBoardItemContainer>
+          <LeaderBoardItemContainer key={item?.username}>
             <Col1>
               <BoldText>{`${index+1}.`}</BoldText>
             </Col1>

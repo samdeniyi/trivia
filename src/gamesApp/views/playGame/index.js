@@ -77,7 +77,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
           setShowCorrectAnswer(true);
           setTimeout(() => {
             handleNextQuestion();
-          }, 3000);
+          }, 4000);
           return;
         }
 
@@ -85,7 +85,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
           setShowWrongAnswer(true);
           setTimeout(() => {
             handleNextQuestion();
-          }, 3000);
+          }, 4000);
           return;
         }
       }

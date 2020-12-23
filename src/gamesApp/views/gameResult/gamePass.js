@@ -74,7 +74,7 @@ const LatestResults = ({avatar}) => {
 
         <ButtonContainer>
           <ButtonWrapper>
-            <Button onClick={() => History.push('/')}>Okay</Button>
+            <Button onClick={() => History.push('/games')}>Okay</Button>
           </ButtonWrapper>
         </ButtonContainer>
         
