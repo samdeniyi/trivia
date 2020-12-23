@@ -7,18 +7,24 @@ import Loader from '../../views/loader';
 
 const HomeContainer = ({userId}) => {
   const [loading, setLoading] = useState(false);
+  const [username, setUserName] = useState('');
 
   const getGamesUsername = () => {
     setLoading(true);
     gameService.getGamesUsername(userId).then(res => {
       setLoading(false);
       if(res.status === 200){
-        localStorage.setItem('gamesUserName', res.data.gamesUserName);
+        if(res.data && res.data.gamesUserName){
+          localStorage.setItem('gamesUserName', res.data.gamesUserName);
+          setUserName(res?.data?.gamesUserName);
+        } else {
+          History.push('/games/username');
+        }
       } else {
         History.push('/games/username');
       }
     })
-  }
+  };
 
   useEffect(() => {
     getGamesUsername();
@@ -27,7 +33,9 @@ const HomeContainer = ({userId}) => {
   return (
     <>
       <Loader loading={loading} />
-      <Home />
+      <Home
+        username={username}
+       />
     </>
   );
 }

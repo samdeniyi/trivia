@@ -34,9 +34,8 @@ import { utils } from '../../utils';
 import History from '../../../utils/History';
 
 
-const Home = ({avatar}) => {
+const Home = ({avatar, username}) => {
   const [openTerms, setOpenTerms] = useState(false);
-  const [gamesUserName, setGamesUserName] = useState('');
 
   const currentTimeGreaterThan12pm = utils.isCurrentTimeGreaterThan12pm();
   const currentTimeGreaterThan4pm = utils.isCurrentTimeGreaterThan4pm();
@@ -49,10 +48,6 @@ const Home = ({avatar}) => {
   const milliSecondsTill4pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 16:00:00`));
   const milliSecondsTill12pmTomorrow = todayInMilliSeconds - (new Date(`${tomorrowFormattedDate} 12:00:00`));
 
-  useEffect(() => {
-    setGamesUserName(localStorage.getItem('gamesUserName'));
-  }, []);
-
   return (
     <Fragment>
       <Loader open={false} />
@@ -61,7 +56,7 @@ const Home = ({avatar}) => {
       <PageHeader>
         <LeftSide>
           <HeaderAvatar src={avatar} />
-          <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
+          <PageHeaderText>Welcome, {username}</PageHeaderText>
         </LeftSide>
         <RightSide>
           <QuestionMark onClick={() => setOpenTerms(true)} />
@@ -109,7 +104,7 @@ const Home = ({avatar}) => {
           />
           <Button 
             onClick={() => History.push('/games/play')}
-            // disabled={!currentTimeGreaterThan12pm}
+            disabled={!currentTimeGreaterThan12pm}
           >
             Play Game
           </Button>
@@ -121,7 +116,7 @@ const Home = ({avatar}) => {
           </InfoLeftSide>
           <InfoRightSide>
             <GameInformationText>Game is only open between 
-              <strong>12pm and 4pm daily</strong> 
+              <strong> 12pm and 4pm daily</strong> 
               and can be played only 
               <strong>once.</strong>
             </GameInformationText>
