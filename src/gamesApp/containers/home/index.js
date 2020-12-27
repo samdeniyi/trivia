@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import History from '../../../utils/History';
 import { gameService } from '../../services';
 import Home from '../../views/home';
@@ -20,8 +21,10 @@ const HomeContainer = ({userId}) => {
         } else {
           History.push('/games/username');
         }
-      } else {
+      } else if(res.status === 400){
         History.push('/games/username');
+      } else {
+        toast.error('An error occured. Try again');
       }
     })
   };

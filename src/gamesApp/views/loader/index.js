@@ -1,32 +1,32 @@
 import React, { Fragment } from "react";
 import { bool } from "prop-types";
-import {Overlay, LoaderIconContainer, AnimationContainer, BigFlashContainer, SmallFlashContainer} from './styles'
+import { Overlay, LoaderIconContainer, AnimationContainer, BigFlashContainer, SmallFlashContainer } from './styles'
 import LoaderTitle from '../../assets/icons/loader-title.svg';
 import BigFlash from '../../assets/icons/loader-big-flash.svg';
 import SmallFlash from '../../assets/icons/loader-small-flash.svg';
 
 
-const Loader = ({loading}) => {
+const Loader = ({ loading }) => {
   return (
     <Fragment>
       {loading && (
         <Overlay>
           <LoaderIconContainer>
-            <AnimationContainer>
-              <BigFlashContainer>
+            <BigFlashContainer>
+              <AnimationContainer>
                 <img src={BigFlash} alt="loader title" />
-              </BigFlashContainer>
-            </AnimationContainer>
+              </AnimationContainer>
+            </BigFlashContainer>
             <img src={LoaderTitle} alt="loader icon" />
             <SmallFlashContainer>
-            <AnimationContainer>
-              <img src={SmallFlash} alt="loader icon" />
-            </AnimationContainer>
+              <AnimationContainer reverse>
+                <img src={SmallFlash} alt="loader icon" />
+              </AnimationContainer>
             </SmallFlashContainer>
           </LoaderIconContainer>
         </Overlay>
       )}
-      
+
     </Fragment>
   );
 };

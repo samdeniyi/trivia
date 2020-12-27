@@ -29,39 +29,64 @@ const LoaderIconContainer= styled.div`
 
 const BigFlashContainer= styled.div`
   position: relative;
-  bottom: 100px;
-  left: 50px;
+  bottom: 80px;
+  left: 63px;
 `;
 
 const SmallFlashContainer= styled.div`
   position: relative;
-  top: 100px;
+  top: 90px;
   right: 50px;
 `;
 
 const AnimationContainer = styled.div`
   width: 100%;
-  animation: bounce 0.5s ease;
+  animation: diagonal 0.5s ease;
   animation-duration: 0.5s;
   animation-iteration-count: infinite;
-  animation-direction: alternate;
-  @keyframes bounce {
-    from {
-      transform: translateY(0px);
+  animation-direction: ${({ reverse }) => reverse ? 'alternate-reverse' : 'alternate'};
+  @keyframes diagonal {
+    0% {
+      position: relative;
     }
-    to {
-      transform: translateY(-15px);
+    25% {
+      position: relative;
+      right: 2px;
+      bottom: 2px;
+    }
+    50% {
+      position: relative;
+      right: 10px;
+      bottom: 10px;
+    }
+    100% {
+      position: relative;
+      right: 20px;
+      bottom: 20px;
     }
   }
   @-webkit-keyframes bounce {
-    from {
-      transform: translateY(0px);
+    0% {
+      position: relative;
     }
-    to {
-      transform: translateY(-15px);
+    25% {
+      position: relative;
+      right: 2px;
+      bottom: 2px;
+    }
+    50% {
+      position: relative;
+      right: 10px;
+      bottom: 10px;
+    }
+    100% {
+      position: relative;
+      right: 20px;
+      bottom: 20px;
     }
   }
 `;
+
 
 export {
   Overlay,

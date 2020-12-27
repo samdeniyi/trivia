@@ -29,7 +29,11 @@ export const utils = {
     };
     try {
       const res = await axios.get(fullUrl, config);
-      return res;
+      if(res.status === 401){
+        window.location.assign('/');
+      } else {
+        return res;
+      }
     } catch (error) {
       return error;
     }
