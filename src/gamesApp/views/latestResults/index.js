@@ -40,7 +40,7 @@ const LatestResults = ({avatar}) => {
       <SpacesHeader />
       <PageHeader>
         <LeftSide>
-          <HeaderAvatar src={avatar} />
+          <HeaderAvatar src={avatar ? avatar : null} />
           <PageHeaderText>Welcome, {gamesUserName}</PageHeaderText>
         </LeftSide>
         <RightSide>

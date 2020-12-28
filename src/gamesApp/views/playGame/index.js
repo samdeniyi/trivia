@@ -23,13 +23,15 @@ import {
   AnswerContainer,
   AnswerCard,
   AnswerText,
+  Overlay,
+  Loader,
 } from './styles';
 import { utils } from '../../utils';
 import { useIsMount } from '../../hooks';
 import QuitGameDialog from './quitGameModal';
 
 
-const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, loading, submitChallenge, avatar }) => {
+const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, loading, submitChallenge, avatar, checkingAnswer }) => {
   const isMount = useIsMount();
 
   const [openQuitGame, setOpenQuitGame] = useState(false);
@@ -96,13 +98,19 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
   return (
     <Fragment>
       <SpacesHeader />
+      {checkingAnswer && <Overlay
+        bgc={"rgba(0, 0, 0, 0.45)"}
+        zIndex={"99999"}
+      >
+        <Loader />
+      </Overlay>}
       <PageContainer>
         <QuitGameDialog open={openQuitGame} cancel={() => setOpenQuitGame(false)} />
         <TermsDialog open={openTerms} cancel={() => setOpenTerms(false)} />
         <FragmentWrapper>
           <PageHeader>
             <LeftSide>
-              <HeaderAvatar src={avatar} />
+              <HeaderAvatar src={avatar ? avatar : null} />
             </LeftSide>
             <MiddleSide>
               <PageHeaderText>Spaces Trivia!</PageHeaderText>
@@ -156,29 +164,17 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
             </QuestionText>
           </QuestionContainer>
           <AnswerContainer>
-            {utils.shuffleArray(currentQuestion?.options)?.map((item, index) =>
-              <>
-                {!showCorrectAnswer && <AnswerCard
-                  bgc={(showWrongAnswer && item === selectedAnswer) ? '#da4822' : (showWrongAnswer && item === correctanswer) ? '#4dbe58' : "#fff"}
-                  key={`${index}${item}`}
-                  onClick={() => handleSelectAnswer(item)}
-                >
-                  <AnswerText color={(showWrongAnswer && (item === selectedAnswer || item === correctanswer)) ? "#fff" : "#000"}>
-                    {item}
-                  </AnswerText>
-                </AnswerCard>}
-
-                {showCorrectAnswer && (item === correctanswer) &&
-                  <AnswerCard
-                    bgc="#4dbe58"
-                    key={`${item}${index}`}
-                    onClick={() => handleSelectAnswer(item)}
-                  >
-                    <AnswerText color="#fff">
-                      {item}
-                    </AnswerText>
-                  </AnswerCard>}
-              </>
+            {currentQuestion?.options.map((item, index) =>
+              <AnswerCard
+                key={`${index}${item}`}
+                bgc={(showWrongAnswer && item === selectedAnswer) ? '#da4822' : (item === correctanswer) ? '#4dbe58' : "#fff"}
+                onClick={() => handleSelectAnswer(item)}
+                unshow={showCorrectAnswer && item !== correctanswer}
+              >
+                <AnswerText color={((showWrongAnswer || showCorrectAnswer) && (item === selectedAnswer || item === correctanswer)) ? "#fff" : "#000"}>
+                  {item}
+                </AnswerText>
+              </AnswerCard>
             )}
           </AnswerContainer>
         </FragmentWrapper>

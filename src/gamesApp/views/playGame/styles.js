@@ -142,6 +142,7 @@ const AnswerCard = styled.div`
   border-radius: 10px;
   background-color: ${({ bgc }) => bgc || '#fff'};
   display: ${({ hide }) => hide ? 'none' : 'flex'};
+  opacity: ${({ unshow }) => unshow ? 0 : 1};
   justify-content: center;
   align-items: center;
   margin-top: 10px;
@@ -185,6 +186,36 @@ const PopUp = styled.div`
         }
 `;
 
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    overflow: auto;
+    max-height: 1000%;
+    z-index: ${({ zIndex }) => zIndex || '99'};
+    background-color: ${({ nonSliding, bgc }) => nonSliding ? 'rgba(205, 205, 205, 45%)' : bgc ? bgc : 'rgba(255, 255, 255, 0.8)'};
+    transition: all .2s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Loader = styled.div`
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
 export {
   FragmentWrapper,
   PageHeader,
@@ -204,4 +235,6 @@ export {
   AnswerCard,
   AnswerText,
   PopUp,
+  Overlay,
+  Loader,
 }

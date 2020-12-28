@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import styled from "styled-components";
 import { string, bool, func } from "prop-types";
 
-import {PopUp} from './styles';
+import { PopUp } from './styles';
 import { Overlay, ActionBlock } from "../../../containers/OverlayContainer";
 import {
   PopUpContent,
   PopUpHeader,
   OptionList,
-  CancelButton,
   InfoMessage,
   OkayCancelButton,
 } from "../../../components/popup/common";

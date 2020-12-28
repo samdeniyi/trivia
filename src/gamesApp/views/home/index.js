@@ -55,7 +55,7 @@ const Home = ({avatar, username}) => {
       <SpacesHeader />
       <PageHeader>
         <LeftSide>
-          <HeaderAvatar src={avatar} />
+          <HeaderAvatar src={avatar ? avatar : null} />
           <PageHeaderText>Welcome, {username}</PageHeaderText>
         </LeftSide>
         <RightSide>

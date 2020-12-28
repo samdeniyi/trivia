@@ -6,6 +6,7 @@ import { gameService } from '../../services';
 import History from '../../../utils/History';
 import { toast } from 'react-toastify';
 import uniqueBy from 'lodash.uniqby';
+import { utils } from '../../utils';
 
 const PlayGameContainer = ({ userId }) => {
   const [loading, setLoading] = useState(false);
@@ -15,11 +16,12 @@ const PlayGameContainer = ({ userId }) => {
   const [score, setScore] = useState(0);
   const [finalSubmissionDone, setFinalSubmissionDone] = useState(false);
   const [questionSubmission, setQuestionSubmission] = useState([]);
+  const [checkingAnswer, setCheckingAnswer] = useState(false);
 
   const getQuestionAnswer = (question, selectedAnswer, selectedOptions) => {
-    setLoading(true);
+    setCheckingAnswer(true);
     gameService.getQuestionAnswer(challengeId, question).then(res => {
-      setLoading(false);
+      setCheckingAnswer(false);
       if (res.status === 200) {
         const answer = res?.data.toString();
         setCorrectAnswer(answer);
@@ -43,11 +45,12 @@ const PlayGameContainer = ({ userId }) => {
           toast.error('No challenge found for today.')
         } else {
           // Pick a random challenge from the list of daily challenges
-          console.log('challenge response', res)
           const randomIndex = Math.floor(Math.random() * res?.data?.length);
           const challenge = res?.data[randomIndex];
+          const questions = utils.shuffleQuestionOptions(challenge?.questions);
+          const shuffledQuestions = utils.shuffleArray(questions)
           setChallengeId(challenge?.id);
-          setQuestions(challenge?.questions);
+          setQuestions(shuffledQuestions);
         }
       };
     })
@@ -61,7 +64,7 @@ const PlayGameContainer = ({ userId }) => {
     }, []);
     setQuestionSubmission(uniqueBy(questionAnswered, 'questionText'));
     setScore((score) => {
-      setLoading(true);
+      // setLoading(true);
       setQuestionSubmission((questionSubmission) => {
         const payload = {
           challengeId,
@@ -71,7 +74,7 @@ const PlayGameContainer = ({ userId }) => {
           questionSubmissions: questionSubmission,
         }
         gameService.submitChallenge(payload).then(res => {
-          setLoading(false);
+          // setLoading(false);
         });
         return questionSubmission;
       });
@@ -129,8 +132,8 @@ const PlayGameContainer = ({ userId }) => {
   };
 
   useEffect(() => {
-    fetchSubmissionsForToday();
-    //fetchChallenges();
+    //fetchSubmissionsForToday();
+    fetchChallenges();
   }, []);
 
   return (
@@ -146,6 +149,7 @@ const PlayGameContainer = ({ userId }) => {
           loading={loading}
           setLoading={setLoading}
           submitChallenge={submitChallenge}
+          checkingAnswer={checkingAnswer}
         />}
     </>
   );

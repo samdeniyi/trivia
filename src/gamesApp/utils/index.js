@@ -60,10 +60,10 @@ export const utils = {
 
   isCurrentTimeGreaterThan12pm: () => {
     let curTime = new Date();
-    let day = curTime.getDay();
+    // let day = curTime.getDay();
     curTime = parseInt(curTime.getHours() + "" + ("0" + curTime.getMinutes()).substr(-2) + "" + ("0" + curTime.getSeconds()).substr(-2));
 
-    if ((curTime > 120000 && day > 0) && (curTime < 160000))
+    if ((curTime > 120000) && (curTime < 160000))
       return true;
     else
       return false;
@@ -71,10 +71,10 @@ export const utils = {
 
   isCurrentTimeGreaterThan4pm: () => {
     let curTime = new Date();
-    let day = curTime.getDay();
+    // let day = curTime.getDay();
     curTime = parseInt(curTime.getHours() + "" + ("0" + curTime.getMinutes()).substr(-2) + "" + ("0" + curTime.getSeconds()).substr(-2));
 
-    if ((curTime > 160000 && day > 0))
+    if ((curTime > 160000))
       return true;
     else
       return false;
@@ -102,6 +102,17 @@ export const utils = {
     }
   },
 
+  shuffleQuestionOptions(questions) {
+    return questions.map((item) => {return {
+      answer: item.answer,
+      options: this.shuffleArray(item.options),
+      questionLevel: item.questionLevel,
+      questionLifeLineCostQuantity: item.questionLifeLineCostQuantity,
+      questionMultiPlayerPoints: item.questionMultiPlayerPoints,
+      questionText: item.questionText
+    }});
+  },
+ 
   formatNumberWithCommas: x => {
     try {
       var parts = x.toString().split(".");
