@@ -119,8 +119,8 @@
 	},
 	"scripts": {
 		"generate-build-meta": "./node_modules/react-clear-cache/bin/cli.js",
-		"start": "env-cmd -f ./.env/.env.local node scripts/start.js",
-		"start:heroku": "node server.js",
+		"start-spaces": "env-cmd -f ./.env/.env.local node scripts/start.js",
+		"start": "node server.js",
 		"start:release": "env-cmd -f ./.env/.env.release node scripts/start.js",
 		"start:dev": "env-cmd -f ./.env/.env.dev node scripts/start.js",
 		"start:staging": "env-cmd -f ./.env/.env.staging node scripts/start.js",
