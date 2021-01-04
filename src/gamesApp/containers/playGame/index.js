@@ -17,6 +17,7 @@ const PlayGameContainer = ({ userId }) => {
   const [finalSubmissionDone, setFinalSubmissionDone] = useState(false);
   const [questionSubmission, setQuestionSubmission] = useState([]);
   const [checkingAnswer, setCheckingAnswer] = useState(false);
+  const [questionDuration, setQuestionDuration] = useState(0);
 
   const getQuestionAnswer = (question, selectedAnswer, selectedOptions) => {
     setCheckingAnswer(true);
@@ -47,6 +48,7 @@ const PlayGameContainer = ({ userId }) => {
           // Pick a random challenge from the list of daily challenges
           const randomIndex = Math.floor(Math.random() * res?.data?.length);
           const challenge = res?.data[randomIndex];
+          setQuestionDuration(challenge?.questionDurationInSeconds)
           const questions = utils.shuffleQuestionOptions(challenge?.questions);
           const shuffledQuestions = utils.shuffleArray(questions)
           setChallengeId(challenge?.id);
@@ -132,8 +134,8 @@ const PlayGameContainer = ({ userId }) => {
   };
 
   useEffect(() => {
-    //fetchSubmissionsForToday();
-    fetchChallenges();
+    fetchSubmissionsForToday();
+    // fetchChallenges();
   }, []);
 
   return (
@@ -150,6 +152,7 @@ const PlayGameContainer = ({ userId }) => {
           setLoading={setLoading}
           submitChallenge={submitChallenge}
           checkingAnswer={checkingAnswer}
+          questionDuration={questionDuration}
         />}
     </>
   );

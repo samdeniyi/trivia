@@ -31,7 +31,7 @@ import { useIsMount } from '../../hooks';
 import QuitGameDialog from './quitGameModal';
 
 
-const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, loading, submitChallenge, avatar, checkingAnswer }) => {
+const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswer, loading, submitChallenge, avatar, checkingAnswer, questionDuration }) => {
   const isMount = useIsMount();
 
   const [openQuitGame, setOpenQuitGame] = useState(false);
@@ -40,7 +40,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [showWrongAnswer, setShowWrongAnswer] = useState(false);
-  const [countdownInterval, setCountdownInterval] = useState(60000);
+  const [countdownInterval, setCountdownInterval] = useState(questionDuration ? questionDuration * 1000 : 60000);
 
   const currentQuestion = questions[questionIndex];
   const todayInMilliSeconds = Date.now();
