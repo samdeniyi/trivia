@@ -116,7 +116,7 @@ const Home = ({avatar, username}) => {
           </InfoLeftSide>
           <InfoRightSide>
             <GameInformationText>Game is only open between 
-              <strong> 12pm and 4pm daily</strong> 
+              <strong> 12pm and 4pm daily</strong>&nbsp;
               and can be played only 
               <strong>once.</strong>
             </GameInformationText>
