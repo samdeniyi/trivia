@@ -6,7 +6,7 @@ import { gameService } from '../../services';
 import Home from '../../views/home';
 import Loader from '../../views/loader';
 
-const HomeContainer = ({userId}) => {
+const HomeContainer = ({ userId }) => {
   const [loading, setLoading] = useState(false);
   const [username, setUserName] = useState('');
 
@@ -14,18 +14,21 @@ const HomeContainer = ({userId}) => {
     setLoading(true);
     gameService.getGamesUsername(userId).then(res => {
       setLoading(false);
-      if(res.status === 200){
-        if(res.data && res.data.gamesUserName){
+      if (res.status === 200) {
+        if (res.data && res.data.gamesUserName) {
           localStorage.setItem('gamesUserName', res.data.gamesUserName);
           setUserName(res?.data?.gamesUserName);
         } else {
           History.push('/games/username');
         }
-      } else if(res.status === 400){
-        History.push('/games/username');
       } else {
-        toast.error('An error occured. Try again');
+        if (!res.status && res.response && res.response.status === 400) {
+          History.push('/games/username');
+        } else {
+          toast.error('An error occured. Try again');
+        }
       }
+
     })
   };
 
@@ -38,7 +41,7 @@ const HomeContainer = ({userId}) => {
       <Loader loading={loading} />
       <Home
         username={username}
-       />
+      />
     </>
   );
 }
