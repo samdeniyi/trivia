@@ -45,11 +45,13 @@ const PlayGameContainer = ({ userId }) => {
           History.push('/games');
           toast.error('No challenge found for today.')
         } else {
+          console.log(res)
           // Pick a random challenge from the list of daily challenges
           const randomIndex = Math.floor(Math.random() * res?.data?.length);
+          console.log('random index', randomIndex);
           const challenge = res?.data[randomIndex];
           setQuestionDuration(challenge?.questionDurationInSeconds)
-          const questions = utils.shuffleQuestionOptions(challenge?.questions);
+          const questions = utils.shuffleQuestionOptions(challenge?.questionList);
           const shuffledQuestions = utils.shuffleArray(questions)
           setChallengeId(challenge?.id);
           setQuestions(shuffledQuestions);
