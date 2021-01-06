@@ -65,7 +65,7 @@ const AnimationContainer = styled.div`
       bottom: 20px;
     }
   }
-  @-webkit-keyframes bounce {
+  @-webkit-keyframes diagonal {
     0% {
       position: relative;
     }
