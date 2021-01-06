@@ -24,7 +24,7 @@ const PreviousWinnerContainer = () => {
 
   return (
     <>
-      <Loader loading={loading} />
+      {loading &&<Loader loading={loading} />}
       <PreviousWinner
          winners={winners}
       />

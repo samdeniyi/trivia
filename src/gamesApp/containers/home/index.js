@@ -38,7 +38,7 @@ const HomeContainer = ({ userId }) => {
 
   return (
     <>
-      <Loader loading={loading} />
+      {loading && <Loader loading={loading} />}
       <Home
         username={username}
       />

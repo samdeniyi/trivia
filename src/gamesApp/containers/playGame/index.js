@@ -146,7 +146,7 @@ const PlayGameContainer = ({ userId }) => {
 
   return (
     <>
-      <Loader loading={loading} />
+      {loading &&<Loader loading={loading} />}
       {questions && questions.length > 0 &&
         <PlayGame
           questions={questions}

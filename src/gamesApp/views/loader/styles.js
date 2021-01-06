@@ -39,12 +39,13 @@ const SmallFlashContainer= styled.div`
   right: 50px;
 `;
 
+// animation: diagonal 0.5s ease;
+
 const AnimationContainer = styled.div`
   width: 100%;
   animation-name: diagonal;
   animation-delay: 0.5s;
   animation-timing-function: ease;
-  // animation: diagonal 0.5s ease;
   animation-duration: 0.5s;
   animation-iteration-count: infinite;
   animation-direction: ${({ reverse }) => reverse ? 'alternate-reverse' : 'alternate'};

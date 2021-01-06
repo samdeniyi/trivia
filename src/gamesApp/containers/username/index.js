@@ -23,7 +23,7 @@ const UsernameContainer = () => {
 
   return (
     <>
-      <Loader loading={loading} />
+      {loading && <Loader loading={loading} />}
       <Username handleSubmit={handleSubmit} />
     </>
   );
