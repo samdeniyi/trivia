@@ -50,7 +50,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
     setCorrectAnswer('');
     setShowCorrectAnswer(false);
     setShowWrongAnswer(false);
-    setCountdownInterval(60000);
+    setCountdownInterval(countdownInterval);
     if (questionIndex < questions?.length - 1) {
       setQuestionIndex(questionIndex + 1);
       return;

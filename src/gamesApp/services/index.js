@@ -9,8 +9,8 @@ const updateGamesUsername = (payload) => {
   return utils.postRequest(`${api.UPDATE_USERNAME}`, payload);
 }
 
-const getQuestionAnswer = (challengeId, question) => {
-  return utils.getRequest(`${api.GET_QUESTION_ANSWER}?challengeId=${challengeId}&question=${question}`);
+const getQuestionAnswer = (payload) => {
+  return utils.postRequest(`${api.GET_QUESTION_ANSWER}`, payload);
 }
 
 const submitChallenge = (payload) => {

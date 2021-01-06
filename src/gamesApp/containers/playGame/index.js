@@ -21,7 +21,11 @@ const PlayGameContainer = ({ userId }) => {
 
   const getQuestionAnswer = (question, selectedAnswer, selectedOptions) => {
     setCheckingAnswer(true);
-    gameService.getQuestionAnswer(challengeId, question).then(res => {
+    const payload = {
+      challengeId,
+      questionText: question,
+    }
+    gameService.getQuestionAnswer(payload).then(res => {
       setCheckingAnswer(false);
       if (res.status === 200) {
         const answer = res?.data.toString();
