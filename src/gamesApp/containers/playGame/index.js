@@ -142,6 +142,7 @@ const PlayGameContainer = ({ userId }) => {
   useEffect(() => {
     fetchSubmissionsForToday();
     // fetchChallenges();
+    // eslint-disable-next-line
   }, []);
 
   return (

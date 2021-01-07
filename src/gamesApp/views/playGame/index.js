@@ -58,6 +58,7 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
     if (questionIndex === questions?.length - 1) {
       submitChallenge(currentQuestion?.questionText, selectedAnswer, currentQuestion?.options);
     }
+    // eslint-disable-next-line
   }, [questionIndex, questions, setCorrectAnswer, submitChallenge, currentQuestion.questionText, currentQuestion.options, selectedAnswer]);
 
   const handleSelectAnswer = (answer) => {
@@ -91,8 +92,8 @@ const PlayGame = ({ questions, getQuestionAnswer, correctanswer, setCorrectAnswe
           return;
         }
       }
-
     }
+    // eslint-disable-next-line
   }, [correctanswer]);
 
   return (

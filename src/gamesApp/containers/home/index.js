@@ -34,6 +34,7 @@ const HomeContainer = ({ userId }) => {
 
   useEffect(() => {
     getGamesUsername();
+    // eslint-disable-next-line
   }, []);
 
   return (

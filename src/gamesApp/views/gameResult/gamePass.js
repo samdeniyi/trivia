@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { SpacesHeader } from '../../../components/spaces-header';
 import {Button} from '../../components';
 import { ReactComponent as QuestionMark } from '../../assets/icons/question-mark.svg';
-import Avatar from '../../assets/img/passport.jpeg';
 import GamePass from '../../assets/img/game-pass.svg';
 import TermsDialog from '../terms';
 import {
