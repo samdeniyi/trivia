@@ -47,16 +47,8 @@ const AnimationContainer = styled.div`
   animation-delay: 0.5s;
   animation-timing-function: ease;
   animation-duration: 0.5s;
-  animation-iteration-count: 100;
+  animation-iteration-count: infinite;
   animation-direction: ${({ reverse }) => reverse ? 'alternate-reverse' : 'alternate'};
-  
-
-  -webkit-animation-name: diagonal;
-  -webkit-animation-delay: 0.5s;
-  -webkit-animation-timing-function: ease;
-  -webkit-animation-duration: 0.5s;
-  -webkit-animation-iteration-count: 100;
-  -webkit-animation-direction: ${({ reverse }) => reverse ? 'alternate-reverse' : 'alternate'};
 
   @keyframes diagonal {
     0% {
