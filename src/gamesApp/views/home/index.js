@@ -104,7 +104,7 @@ const Home = ({avatar, username}) => {
           />
           <Button 
             onClick={() => History.push('/games/play')}
-            // disabled={!currentTimeGreaterThan12pm}
+            disabled={!currentTimeGreaterThan12pm}
           >
             Play Game
           </Button>
