@@ -44,9 +44,9 @@ const Home = ({avatar, username}) => {
   const tomorrowFullDate = todayFullDate.setDate(todayFullDate.getDate() + 1);
   const tomorrowFormattedDate = utils.formatDate(tomorrowFullDate);
   const todayFormattedDate = utils.formatDate(todayFullDate);
-  const milliSecondsTill12pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 12:00:00`));
-  const milliSecondsTill4pm = todayInMilliSeconds - (new Date(`${todayFormattedDate} 16:00:00`));
-  const milliSecondsTill12pmTomorrow = todayInMilliSeconds - (new Date(`${tomorrowFormattedDate} 12:00:00`));
+  const milliSecondsTill12pm = todayInMilliSeconds - (new Date(`${todayFormattedDate}T12:00:00`));
+  const milliSecondsTill4pm = todayInMilliSeconds - (new Date(`${todayFormattedDate}T16:00:00`));
+  const milliSecondsTill12pmTomorrow = todayInMilliSeconds - (new Date(`${tomorrowFormattedDate}T12:00:00`));
 
   return (
     <Fragment>

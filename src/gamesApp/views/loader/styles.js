@@ -39,9 +39,8 @@ const SmallFlashContainer= styled.div`
   right: 50px;
 `;
 
-// animation: diagonal 0.5s ease;
-
-const AnimationContainer = styled.div`
+// Does not work with Safari
+const AlternateAnimationContainer = styled.div`
   width: 100%;
   animation-name: diagonal;
   animation-delay: 0.5s;
@@ -92,6 +91,53 @@ const AnimationContainer = styled.div`
   }
 `;
 
+// Works with Safari 
+const AnimationContainer = styled.div`
+  width: 100%;
+  -webkit-animation-name: diagonal;
+  -webkit-animation-delay: 0.5s;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: ${({ reverse }) => reverse ? 'alternate-reverse' : 'alternate'};
+  
+  animation-name: diagonal;
+  animation-delay: 0.5s;
+  animation-timing-function: ease;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: ${({ reverse }) => reverse ? 'alternate-reverse' : 'alternate'};
+
+  @-webkit-keyframes diagonal {
+    0% {
+      transform: translatex(0px) translatey(0px)
+    }
+    25% {
+      transform: translatex(10px) translatey(10px);
+    }
+    50% {
+      transform: translatex(15px) translatey(15px);
+    }
+    100% {
+      transform: translatex(20px) translatey(20px);
+    }
+  }
+  @keyframes diagonal {
+    0% {
+      transform: translatex(0px) translatey(0px)
+    }
+    25% {
+      transform: translatex(10px) translatey(10px);
+    }
+    50% {
+      transform: translatex(15px) translatey(15px);
+    }
+    100% {
+      transform: translatex(20px) translatey(20px);
+    }
+  }
+`;
+
 
 export {
   Overlay,
@@ -99,4 +145,5 @@ export {
   AnimationContainer,
   BigFlashContainer,
   SmallFlashContainer,
+  AlternateAnimationContainer,
 }
