@@ -29,14 +29,14 @@ const LoaderIconContainer= styled.div`
 
 const BigFlashContainer= styled.div`
   position: relative;
-  bottom: 80px;
-  left: 63px;
+  bottom: 97px;
+  left: 40px;
 `;
 
 const SmallFlashContainer= styled.div`
   position: relative;
-  top: 90px;
-  right: 50px;
+  top: 70px;
+  right: 70px;
 `;
 
 // Does not work with Safari
